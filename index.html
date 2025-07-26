@@ -4,8 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Rubrox Mining App</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * {
       box-sizing: border-box;
@@ -13,7 +11,7 @@
       padding: 0;
     }
     body {
-      font-family: 'Segoe UI', 'Nirmala UI', sans-serif;
+      font-family: 'Segoe UI', sans-serif;
       background: linear-gradient(135deg, #111, #400040);
       color: white;
       text-align: center;
@@ -220,11 +218,6 @@
     .tab-container {
       display: flex;
       margin-bottom: 15px;
-      overflow-x: auto;
-      scrollbar-width: none; /* Firefox */
-    }
-    .tab-container::-webkit-scrollbar {
-      display: none; /* Chrome, Safari, Opera */
     }
     .tab {
       flex: 1;
@@ -232,8 +225,6 @@
       background: rgba(255,255,255,0.1);
       cursor: pointer;
       border-bottom: 3px solid transparent;
-      min-width: 100px;
-      white-space: nowrap;
     }
     .tab.active {
       border-bottom: 3px solid #ff0080;
@@ -256,7 +247,6 @@
       display: flex;
       justify-content: space-between;
       margin: 15px 0;
-      flex-wrap: wrap;
     }
     .stat-box {
       background: rgba(255,255,255,0.1);
@@ -264,7 +254,6 @@
       border-radius: 8px;
       flex: 1;
       margin: 0 5px;
-      min-width: 120px;
     }
     .withdrawal-item {
       background: rgba(255,255,255,0.1);
@@ -302,117 +291,6 @@
       border-radius: 8px;
       cursor: pointer;
     }
-    .chart-container {
-      width: 100%;
-      height: 250px;
-      margin: 15px 0;
-    }
-    .badge {
-      display: inline-block;
-      padding: 3px 8px;
-      background: #ff8c00;
-      border-radius: 10px;
-      font-size: 0.8rem;
-      margin: 2px;
-    }
-    .language-toggle {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background: #333;
-      border-radius: 8px;
-      padding: 6px 12px;
-      font-size: 14px;
-      width: auto;
-      cursor: pointer;
-    }
-    .chat-container {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 300px;
-      background: linear-gradient(135deg, #222, #500050);
-      border-radius: 15px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
-      z-index: 1000;
-      display: none;
-    }
-    .chat-header {
-      background: #ff0080;
-      padding: 10px;
-      border-top-left-radius: 15px;
-      border-top-right-radius: 15px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .chat-body {
-      height: 300px;
-      overflow-y: auto;
-      padding: 10px;
-    }
-    .chat-message {
-      margin: 5px 0;
-      padding: 8px;
-      border-radius: 8px;
-      background: rgba(255,255,255,0.1);
-      text-align: left;
-    }
-    .chat-input {
-      display: flex;
-      padding: 10px;
-    }
-    .chat-input input {
-      flex: 1;
-      padding: 8px;
-      border-radius: 8px 0 0 8px;
-      border: none;
-      background: rgba(255,255,255,0.1);
-      color: white;
-    }
-    .chat-input button {
-      width: auto;
-      padding: 8px 12px;
-      border-radius: 0 8px 8px 0;
-      margin: 0;
-    }
-    .conversion-box {
-      background: rgba(255,255,255,0.1);
-      padding: 10px;
-      border-radius: 8px;
-      margin: 10px 0;
-    }
-    .conversion-rate {
-      font-size: 0.9rem;
-      color: #ff8c00;
-      margin: 5px 0;
-    }
-    .badge-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin: 10px 0;
-    }
-    .loading-spinner {
-      border: 4px solid rgba(255, 255, 255, 0.3);
-      border-radius: 50%;
-      border-top: 4px solid #ff0080;
-      width: 30px;
-      height: 30px;
-      animation: spin 1s linear infinite;
-      margin: 20px auto;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    .action-buttons {
-      display: flex;
-      gap: 10px;
-      margin: 15px 0;
-    }
-    .action-buttons button {
-      flex: 1;
-    }
     @media (max-width: 480px) {
       .container {
         padding: 15px;
@@ -433,161 +311,126 @@
         padding: 8px 5px;
         font-size: 0.8rem;
       }
-      .chat-container {
-        width: 250px;
-        right: 10px;
-      }
-      .action-buttons {
-        flex-direction: column;
-        gap: 5px;
-      }
     }
   </style>
 </head>
 <body>
   <div id="notification">New notification!</div>
 
-  <button class="language-toggle" onclick="toggleLanguage()">বাংলা</button>
-
   <div class="container">
-    <button id="logoutBtn" onclick="logout()" style="display:none;" data-en="Logout" data-bn="লগ আউট">Logout</button>
-    <h1 data-en="💎 Rubrox Miner" data-bn="💎 রুব্রক্স মাইনার">💎 Rubrox Miner</h1>
+    <button id="logoutBtn" onclick="logout()" style="display:none;">Logout</button>
+    <h1>💎 Rubrox Miner</h1>
     <div id="authSection">
-      <p data-en="Enter Your Name:" data-bn="আপনার নাম লিখুন:">Enter Your Name:</p>
-      <input type="text" id="usernameInput" placeholder="Your Name" data-en-placeholder="Your Name" data-bn-placeholder="আপনার নাম" />
-      <input type="text" id="referralInput" placeholder="Referral Code (optional)" data-en-placeholder="Referral Code (optional)" data-bn-placeholder="রেফারেল কোড (ঐচ্ছিক)" />
+      <p>Enter Your Name:</p>
+      <input type="text" id="usernameInput" placeholder="Your Name" />
+      <input type="text" id="referralInput" placeholder="Referral Code (optional)" />
       <br />
-      <button onclick="login()" data-en="Start Mining" data-bn="মাইনিং শুরু করুন">Start Mining</button>
-      <p class="info" data-en="By registering, you agree to our " data-bn="রেজিস্ট্রেশন করে আপনি আমাদের ">
-        <span data-en="By registering, you agree to our " data-bn="রেজিস্ট্রেশন করে আপনি আমাদের ">By registering, you agree to our </span>
-        <a href="#" onclick="showTerms()" style="color:#ff8c00;" data-en="Terms of Service" data-bn="সেবার শর্তাবলী">Terms of Service</a>
-      </p>
+      <button onclick="login()">Start Mining</button>
+      <p class="info">By registering, you agree to our <a href="#" onclick="showTerms()" style="color:#ff8c00;">Terms of Service</a></p>
     </div>
 
     <div id="mainApp" style="display:none;">
-      <p data-en="👋 Welcome, " data-bn="👋 স্বাগতম, ">👋 Welcome, <span id="userName" style="color:#ff8c00;font-weight:bold;"></span></p>
-      
-      <div class="conversion-box">
-        <p class="rubies">💎 <span id="rubyCount">0</span> <span data-en="Rubies" data-bn="রুবি">Rubies</span></p>
-        <p class="conversion-rate" data-en="≈ " data-bn="≈ ">≈ <span id="usdtValue">0</span> USDT | <span id="bdtValue">0</span> BDT</p>
-      </div>
-      
-      <p data-en="📅 Mining Days: " data-bn="📅 মাইনিং দিন: ">📅 Mining Days: <span id="miningDays">0</span></p>
+      <p>👋 Welcome, <span id="userName" style="color:#ff8c00;font-weight:bold;"></span></p>
+      <p class="rubies">💎 <span id="rubyCount">0</span> </p>
+      <p>📅 Mining Days: <span id="miningDays">0</span></p>
       <p class="info" id="miningStatus"></p>
       <div class="progress-container" id="progressContainer" style="display:none;">
         <div class="progress-bar" id="progressBar"></div>
       </div>
-      
-      <div class="action-buttons">
-        <button id="mineBtn" onclick="startMining()" data-en="⛏️ Start Mining" data-bn="⛏️ মাইনিং শুরু করুন">⛏️ Start Mining</button>
-        <button onclick="claimBonus()" id="bonusBtn" data-en="🎁 Daily Bonus" data-bn="🎁 দৈনিক বোনাস">🎁 Daily Bonus</button>
-      </div>
-      
+      <button id="mineBtn" onclick="startMining()">⛏️ Start 24h Mining</button>
+      <button onclick="claimBonus()" id="bonusBtn">🎁 Claim Daily Bonus</button>
       <p class="info" id="bonusStatus"></p>
       <p class="info" id="kycStatus"></p>
-      <button onclick="requestWithdraw()" id="withdrawBtn" disabled data-en="💵 Request Withdraw" data-bn="💵 উত্তোলন অনুরোধ করুন">💵 Request Withdraw</button>
-      
-      <div class="badge-container" id="badgeContainer"></div>
+      <button onclick="requestWithdraw()" id="withdrawBtn" disabled>💵 Request Withdraw</button>
       
       <div class="tab-container">
-        <div class="tab active" onclick="switchTab('leaderboard')" data-en="🏆 Leaderboard" data-bn="🏆 লিডারবোর্ড">🏆 Leaderboard</div>
-        <div class="tab" onclick="switchTab('referrals')" data-en="👥 Referrals" data-bn="👥 রেফারেল">👥 Referrals</div>
-        <div class="tab" onclick="switchTab('withdrawals')" data-en="💸 Withdrawals" data-bn="💸 উত্তোলন">💸 Withdrawals</div>
-        <div class="tab" onclick="switchTab('history')" data-en="📊 History" data-bn="📊 ইতিহাস">📊 History</div>
+        <div class="tab active" onclick="switchTab('leaderboard')">🏆 Leaderboard</div>
+        <div class="tab" onclick="switchTab('referrals')">👥 Referrals</div>
+        <div class="tab" onclick="switchTab('withdrawals')">💸 Withdrawals</div>
       </div>
       
       <div id="leaderboard" class="tab-content active"></div>
       
       <div id="referrals" class="tab-content">
-        <h3 data-en="Your Referral Link" data-bn="আপনার রেফারেল লিংক">Your Referral Link</h3>
+        <h3>Your Referral Link</h3>
         <div class="referral-link" id="referralLink">Loading...</div>
-        <button onclick="copyReferralLink()" data-en="📋 Copy Link" data-bn="📋 লিংক কপি করুন">📋 Copy Link</button>
+        <button onclick="copyReferralLink()">📋 Copy Link</button>
         
         <div class="referral-stats">
           <div class="stat-box">
-            <div data-en="Total Referrals" data-bn="মোট রেফারেল">Total Referrals</div>
+            <div>Total Referrals</div>
             <div id="totalReferrals">0</div>
           </div>
           <div class="stat-box">
-            <div data-en="Earned from Referrals" data-bn="রেফারেল থেকে আয়">Earned from Referrals</div>
+            <div>Earned from Referrals</div>
             <div id="referralEarnings">0 💎</div>
           </div>
         </div>
         
-        <h3 data-en="Your Referrals" data-bn="আপনার রেফারেল">Your Referrals</h3>
+        <h3>Your Referrals</h3>
         <div id="referralList"></div>
       </div>
       
       <div id="withdrawals" class="tab-content">
-        <h3 data-en="Withdrawal History" data-bn="উত্তোলনের ইতিহাস">Withdrawal History</h3>
+        <h3>Withdrawal History</h3>
         <div id="withdrawalHistory"></div>
-      </div>
-      
-      <div id="history" class="tab-content">
-        <h3 data-en="Mining History" data-bn="মাইনিং ইতিহাস">Mining History</h3>
-        <div class="chart-container">
-          <canvas id="miningChart"></canvas>
-        </div>
       </div>
     </div>
   </div>
 
   <div id="banScreen" class="ban-screen" style="display:none;">
-    <h2 data-en="ACCOUNT BANNED" data-bn="অ্যাকাউন্ট নিষিদ্ধ">ACCOUNT BANNED</h2>
-    <p data-en="Your account has been suspended by the administrator." data-bn="অ্যাডমিনিস্ট্রেটর দ্বারা আপনার অ্যাকাউন্ট স্থগিত করা হয়েছে।">Your account has been suspended by the administrator.</p>
-    <p data-en="Please contact support if you believe this is a mistake." data-bn="আপনি যদি মনে করেন এটি একটি ভুল, তাহলে সহায়তা দলের সাথে যোগাযোগ করুন।">Please contact support if you believe this is a mistake.</p>
-    <button onclick="logout()" data-en="Return to Login" data-bn="লগইনে ফিরে যান">Return to Login</button>
+    <h2>ACCOUNT BANNED</h2>
+    <p>Your account has been suspended by the administrator.</p>
+    <p>Please contact support if you believe this is a mistake.</p>
+    <button onclick="logout()">Return to Login</button>
   </div>
 
   <!-- KYC Verification Modal -->
   <div id="kycModal" class="modal">
     <div class="modal-content">
       <span class="close-modal" onclick="closeModal('kycModal')">&times;</span>
-      <h2 data-en="KYC Verification" data-bn="KYC যাচাইকরণ">KYC Verification</h2>
-      <p data-en="To withdraw your rubies, please complete KYC verification by providing the following information:" 
-         data-bn="আপনার রুবি উত্তোলন করতে, নিচের তথ্য প্রদান করে KYC যাচাইকরণ সম্পূর্ণ করুন:">
-        To withdraw your rubies, please complete KYC verification by providing the following information:
-      </p>
+      <h2>KYC Verification</h2>
+      <p>To withdraw your rubies, please complete KYC verification by providing the following information:</p>
       
       <div class="kyc-form">
-        <label data-en="Full Name" data-bn="পূর্ণ নাম">Full Name</label>
-        <input type="text" id="kycName" data-en-placeholder="As per your ID" data-bn-placeholder="আপনার আইডি অনুযায়ী">
+        <label>Full Name</label>
+        <input type="text" id="kycName" placeholder="As per your ID">
         
-        <label data-en="Date of Birth" data-bn="জন্ম তারিখ">Date of Birth</label>
+        <label>Date of Birth</label>
         <input type="date" id="kycDob">
         
-        <label data-en="ID Type" data-bn="আইডি প্রকার">ID Type</label>
+        <label>ID Type</label>
         <select id="kycIdType">
-          <option value="passport" data-en="Passport" data-bn="পাসপোর্ট">Passport</option>
-          <option value="driver_license" data-en="Driver's License" data-bn="ড্রাইভিং লাইসেন্স">Driver's License</option>
-          <option value="national_id" data-en="National ID" data-bn="জাতীয় আইডি">National ID</option>
+          <option value="passport">Passport</option>
+          <option value="driver_license">Driver's License</option>
+          <option value="national_id">National ID</option>
         </select>
         
-        <label data-en="ID Number" data-bn="আইডি নম্বর">ID Number</label>
-        <input type="text" id="kycIdNumber" data-en-placeholder="ID document number" data-bn-placeholder="আইডি ডকুমেন্ট নম্বর">
+        <label>ID Number</label>
+        <input type="text" id="kycIdNumber" placeholder="ID document number">
         
-        <label data-en="ID Photo (Front)" data-bn="আইডি ফটো (সামনের দিক)">ID Photo (Front)</label>
+        <label>ID Photo (Front)</label>
         <div class="kyc-upload" onclick="document.getElementById('kycFront').click()">
-          <p data-en="Click to upload ID Front" data-bn="আইডির সামনের দিক আপলোড করতে ক্লিক করুন">Click to upload ID Front</p>
+          <p>Click to upload ID Front</p>
           <input type="file" id="kycFront" accept="image/*" style="display:none;" onchange="previewImage(this, 'kycFrontPreview')">
           <img id="kycFrontPreview" style="max-width:100%; max-height:150px; display:none;">
         </div>
         
-        <label data-en="ID Photo (Back)" data-bn="আইডি ফটো (পিছনের দিক)">ID Photo (Back)</label>
+        <label>ID Photo (Back)</label>
         <div class="kyc-upload" onclick="document.getElementById('kycBack').click()">
-          <p data-en="Click to upload ID Back" data-bn="আইডির পিছনের দিক আপলোড করতে ক্লিক করুন">Click to upload ID Back</p>
+          <p>Click to upload ID Back</p>
           <input type="file" id="kycBack" accept="image/*" style="display:none;" onchange="previewImage(this, 'kycBackPreview')">
           <img id="kycBackPreview" style="max-width:100%; max-height:150px; display:none;">
         </div>
         
-        <label data-en="Selfie with ID" data-bn="আইডি সহ সেলফি">Selfie with ID</label>
+        <label>Selfie with ID</label>
         <div class="kyc-upload" onclick="document.getElementById('kycSelfie').click()">
-          <p data-en="Click to upload Selfie with ID" data-bn="আইডি সহ সেলফি আপলোড করতে ক্লিক করুন">Click to upload Selfie with ID</p>
+          <p>Click to upload Selfie with ID</p>
           <input type="file" id="kycSelfie" accept="image/*" style="display:none;" onchange="previewImage(this, 'kycSelfiePreview')">
           <img id="kycSelfiePreview" style="max-width:100%; max-height:150px; display:none;">
         </div>
         
-        <button onclick="submitKYC()" data-en="Submit Verification" data-bn="যাচাইকরণ জমা দিন">Submit Verification</button>
+        <button onclick="submitKYC()">Submit Verification</button>
       </div>
     </div>
   </div>
@@ -596,66 +439,33 @@
   <div id="termsModal" class="modal">
     <div class="modal-content">
       <span class="close-modal" onclick="closeModal('termsModal')">&times;</span>
-      <h2 data-en="Terms of Service" data-bn="সেবার শর্তাবলী">Terms of Service</h2>
+      <h2>Terms of Service</h2>
       <div style="text-align:left; max-height:60vh; overflow-y:auto;">
-        <h3 data-en="1. Account Terms" data-bn="১. অ্যাকাউন্ট শর্তাবলী">1. Account Terms</h3>
-        <p data-en="You must be at least 18 years old to use this service. You are responsible for maintaining the security of your account." 
-           data-bn="এই সেবা ব্যবহার করার জন্য আপনাকে অবশ্যই কমপক্ষে ১৮ বছর বয়সী হতে হবে। আপনি আপনার অ্যাকাউন্টের সুরক্ষা বজায় রাখার জন্য দায়ী।">
-          You must be at least 18 years old to use this service. You are responsible for maintaining the security of your account.
-        </p>
+        <h3>1. Account Terms</h3>
+        <p>You must be at least 18 years old to use this service. You are responsible for maintaining the security of your account.</p>
         
-        <h3 data-en="2. Mining Rules" data-bn="২. মাইনিং নিয়ম">2. Mining Rules</h3>
-        <p data-en="Each mining session lasts 24 hours. You can only have one active mining session at a time. The mining rate is approximately 0.05 rubies every 24 hours." 
-           data-bn="প্রতিটি মাইনিং সেশন ২৪ ঘন্টা স্থায়ী হয়। আপনি একবারে শুধুমাত্র একটি সক্রিয় মাইনিং সেশন করতে পারেন। মাইনিং হার প্রায় প্রতি ২৪ ঘন্টায় ০.০৫ রুবি।">
-          Each mining session lasts 24 hours. You can only have one active mining session at a time. The mining rate is approximately 0.05 rubies every 24 hours.
-        </p>
+        <h3>2. Mining Rules</h3>
+        <p>Each mining session lasts 24 hours. You can only have one active mining session at a time. The mining rate is approximately 0.0002 rubies every 5 seconds.</p>
         
-        <h3 data-en="3. Referral Program" data-bn="৩. রেফারেল প্রোগ্রাম">3. Referral Program</h3>
-        <p data-en="You earn 5 rubies for each successful referral, and your referral earns 10 rubies. Referral bonuses are awarded only when the referred user completes their first mining session." 
-           data-bn="প্রতিটি সফল রেফারেলের জন্য আপনি ৫ রুবি উপার্জন করেন এবং আপনার রেফারেল ১০ রুবি পায়। রেফারেল বোনাস শুধুমাত্র তখনই প্রদান করা হয় যখন রেফার করা ব্যবহারকারী তাদের প্রথম মাইনিং সেশন সম্পূর্ণ করে।">
-          You earn 5 rubies for each successful referral, and your referral earns 10 rubies. Referral bonuses are awarded only when the referred user completes their first mining session.
-        </p>
+        <h3>3. Referral Program</h3>
+        <p>You earn 5 rubies for each successful referral, and your referral earns 10 rubies. Referral bonuses are awarded only when the referred user completes their first mining session.</p>
         
-        <h3 data-en="4. Withdrawals" data-bn="৪. উত্তোলন">4. Withdrawals</h3>
-        <p data-en="Withdrawals require KYC verification after 30 days of mining. Withdrawal requests are processed within 3-5 business days. There may be minimum withdrawal amounts." 
-           data-bn="৩০ দিন মাইনিং করার পর উত্তোলনের জন্য KYC যাচাইকরণ প্রয়োজন। উত্তোলন অনুরোধ ৩-৫ কর্মদিবসের মধ্যে প্রক্রিয়া করা হয়। ন্যূনতম উত্তোলন পরিমাণ থাকতে পারে।">
-          Withdrawals require KYC verification after 30 days of mining. Withdrawal requests are processed within 3-5 business days. There may be minimum withdrawal amounts.
-        </p>
+        <h3>4. Withdrawals</h3>
+        <p>Withdrawals require KYC verification after 30 days of mining. Withdrawal requests are processed within 3-5 business days. There may be minimum withdrawal amounts.</p>
         
-        <h3 data-en="5. Prohibited Activities" data-bn="৫. নিষিদ্ধ কার্যক্রম">5. Prohibited Activities</h3>
-        <p data-en="The following activities are prohibited and may result in account suspension:" 
-           data-bn="নিম্নলিখিত কার্যক্রম নিষিদ্ধ এবং অ্যাকাউন্ট স্থগিত হতে পারে:">
-          The following activities are prohibited and may result in account suspension:
-        </p>
+        <h3>5. Prohibited Activities</h3>
+        <p>The following activities are prohibited and may result in account suspension:</p>
         <ul>
-          <li data-en="Creating multiple accounts" data-bn="একাধিক অ্যাকাউন্ট তৈরি করা">Creating multiple accounts</li>
-          <li data-en="Using automated scripts or bots" data-bn="স্বয়ংক্রিয় স্ক্রিপ্ট বা বট ব্যবহার করা">Using automated scripts or bots</li>
-          <li data-en="Attempting to exploit system vulnerabilities" data-bn="সিস্টেমের দুর্বলতা কাজে লাগানোর চেষ্টা করা">Attempting to exploit system vulnerabilities</li>
-          <li data-en="Providing false information during KYC" data-bn="KYC-এর সময় মিথ্যা তথ্য প্রদান করা">Providing false information during KYC</li>
+          <li>Creating multiple accounts</li>
+          <li>Using automated scripts or bots</li>
+          <li>Attempting to exploit system vulnerabilities</li>
+          <li>Providing false information during KYC</li>
         </ul>
         
-        <h3 data-en="6. Liability" data-bn="৬. দায়িত্ব">6. Liability</h3>
-        <p data-en="We are not responsible for any losses resulting from unauthorized access to your account. Ruby values may fluctuate." 
-           data-bn="আপনার অ্যাকাউন্টে অননুমোদিত প্রবেশের ফলে যে কোনও ক্ষতির জন্য আমরা দায়ী নই। রুবির মান ওঠানামা করতে পারে।">
-          We are not responsible for any losses resulting from unauthorized access to your account. Ruby values may fluctuate.
-        </p>
+        <h3>6. Liability</h3>
+        <p>We are not responsible for any losses resulting from unauthorized access to your account. Ruby values may fluctuate.</p>
       </div>
-      <button onclick="closeModal('termsModal')" data-en="I Understand" data-bn="আমি বুঝতে পেরেছি">I Understand</button>
-    </div>
-  </div>
-
-  <!-- Chat Support Modal -->
-  <div class="chat-container" id="chatContainer">
-    <div class="chat-header" onclick="toggleChat()" data-en="💬 Support (Online)" data-bn="💬 সহায়তা (অনলাইন)">💬 Support (Online)</div>
-    <div class="chat-body" id="chatBody">
-      <div class="chat-message" data-en="Support agent joined the chat. How can we help you today?" 
-           data-bn="সহায়তা এজেন্ট চ্যাটে যোগ দিয়েছেন। আজ আমরা আপনাকে কিভাবে সাহায্য করতে পারি?">
-        Support agent joined the chat. How can we help you today?
-      </div>
-    </div>
-    <div class="chat-input">
-      <input type="text" id="chatInput" placeholder="Type your message..." data-en-placeholder="Type your message..." data-bn-placeholder="আপনার বার্তা টাইপ করুন..." />
-      <button onclick="sendChatMessage()" data-en="Send" data-bn="পাঠান">Send</button>
+      <button onclick="closeModal('termsModal')">I Understand</button>
     </div>
   </div>
 
@@ -663,135 +473,6 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
   <script>
-    // Language support
-    let currentLanguage = 'en';
-    const languages = {
-      en: {
-        notificationTitle: "Rubrox Miner",
-        notificationBody: "You have new rubies to claim!",
-        miningComplete: "✅ Mining finished! Start again to earn more",
-        miningActive: "⛏️ Mining active - ",
-        readyToMine: "🕒 Ready to start mining",
-        bonusClaimed: "✅ Daily bonus claimed! +20 Rubies",
-        bonusAvailable: "🎁 Daily bonus available!",
-        bonusAlreadyClaimed: "🎁 Daily bonus already claimed! Come back tomorrow.",
-        kycEligible: "🎉 You're eligible for KYC verification! Click here to verify",
-        kycPending: "⌛ KYC Pending (admin approval required)",
-        kycVerified: "✅ KYC Verified",
-        kycDaysLeft: "📆 {days} more mining days to unlock KYC",
-        referralApplied: "🎉 Referral link applied! Bonus will be awarded after your first mining session.",
-        referralBonus: "🎉 Referral bonus awarded! +5 Rubies for you and +10 for your referrer",
-        withdrawalSubmitted: "✅ Withdrawal request submitted! Processing may take 3-5 business days.",
-        insufficientBalance: "Insufficient balance",
-        invalidAmount: "Invalid amount",
-        minWithdrawal: "Minimum withdrawal amount is 100 Rubies",
-        contactRequired: "Contact info required",
-        noReferrals: "No referrals yet",
-        noWithdrawals: "No withdrawal history",
-        bannedMessage: "Your account has been suspended by the administrator.",
-        bannedContact: "Please contact support if you believe this is a mistake.",
-        badges: {
-          first_mining: "First Miner",
-          week_mining: "Weekly Miner",
-          month_mining: "Monthly Miner",
-          referrals_5: "Referral Master",
-          referrals_10: "Super Referrer"
-        }
-      },
-      bn: {
-        notificationTitle: "রুব্রক্স মাইনার",
-        notificationBody: "আপনার দাবি করার জন্য নতুন রুবি আছে!",
-        miningComplete: "✅ মাইনিং শেষ! আরও উপার্জন করতে আবার শুরু করুন",
-        miningActive: "⛏️ মাইনিং সক্রিয় - ",
-        readyToMine: "🕒 মাইনিং শুরু করার জন্য প্রস্তুত",
-        bonusClaimed: "✅ দৈনিক বোনাস দাবি করা হয়েছে! +২০ রুবি",
-        bonusAvailable: "🎁 দৈনিক বোনাস উপলব্ধ!",
-        bonusAlreadyClaimed: "🎁 আজকের দৈনিক বোনাস ইতিমধ্যেই দাবি করা হয়েছে! আগামীকাল আবার আসুন।",
-        kycEligible: "🎉 আপনি KYC যাচাইকরণের জন্য যোগ্য! যাচাই করতে এখানে ক্লিক করুন",
-        kycPending: "⌛ KYC মুলতুবি (অ্যাডমিন অনুমোদন প্রয়োজন)",
-        kycVerified: "✅ KYC যাচাইকৃত",
-        kycDaysLeft: "📆 KYC আনলক করতে আরও {days} দিন মাইনিং করুন",
-        referralApplied: "🎉 রেফারেল লিংক প্রয়োগ করা হয়েছে! আপনার প্রথম মাইনিং সেশন শেষ হলে বোনাস প্রদান করা হবে।",
-        referralBonus: "🎉 রেফারেল বোনাস প্রদান করা হয়েছে! আপনার জন্য +৫ রুবি এবং আপনার রেফারারের জন্য +১০ রুবি",
-        withdrawalSubmitted: "✅ উত্তোলন অনুরোধ জমা দেওয়া হয়েছে! প্রক্রিয়াকরণে ৩-৫ কর্মদিবস সময় লাগতে পারে।",
-        insufficientBalance: "অপর্যাপ্ত ব্যালেন্স",
-        invalidAmount: "অবৈধ পরিমাণ",
-        minWithdrawal: "ন্যূনতম উত্তোলন পরিমাণ ১০০ রুবি",
-        contactRequired: "যোগাযোগের তথ্য প্রয়োজন",
-        noReferrals: "এখনও কোন রেফারেল নেই",
-        noWithdrawals: "কোন উত্তোলনের ইতিহাস নেই",
-        bannedMessage: "অ্যাডমিনিস্ট্রেটর দ্বারা আপনার অ্যাকাউন্ট স্থগিত করা হয়েছে।",
-        bannedContact: "আপনি যদি মনে করেন এটি একটি ভুল, তাহলে সহায়তা দলের সাথে যোগাযোগ করুন।",
-        badges: {
-          first_mining: "প্রথম মাইনার",
-          week_mining: "সাপ্তাহিক মাইনার",
-          month_mining: "মাসিক মাইনার",
-          referrals_5: "রেফারেল মাস্টার",
-          referrals_10: "সুপার রেফারার"
-        }
-      }
-    };
-
-    function toggleLanguage() {
-      currentLanguage = currentLanguage === 'en' ? 'bn' : 'en';
-      document.querySelector('.language-toggle').textContent = currentLanguage === 'en' ? 'বাংলা' : 'English';
-      updateLanguage();
-    }
-
-    function updateLanguage() {
-      // Update all elements with data attributes
-      document.querySelectorAll('[data-en], [data-bn]').forEach(el => {
-        if (el.tagName === 'INPUT' || el.tagName === 'SELECT') {
-          const placeholderAttr = currentLanguage === 'en' ? 'data-en-placeholder' : 'data-bn-placeholder';
-          if (el.hasAttribute(placeholderAttr)) {
-            el.placeholder = el.getAttribute(placeholderAttr);
-          }
-        } else {
-          const text = el.getAttribute(`data-${currentLanguage}`);
-          if (text) el.textContent = text;
-        }
-      });
-      
-      // Update dynamic text
-      updateDynamicText();
-    }
-
-    function updateDynamicText() {
-      // Update mining status
-      const miningStatus = document.getElementById("miningStatus");
-      if (miningStatus.textContent.includes("Mining active")) {
-        miningStatus.textContent = languages[currentLanguage].miningActive + miningStatus.textContent.split(" - ")[1];
-      } else if (miningStatus.textContent.includes("Ready to start")) {
-        miningStatus.textContent = languages[currentLanguage].readyToMine;
-      } else if (miningStatus.textContent.includes("Mining finished")) {
-        miningStatus.textContent = languages[currentLanguage].miningComplete;
-      }
-      
-      // Update bonus status
-      const bonusStatus = document.getElementById("bonusStatus");
-      if (bonusStatus.textContent.includes("Daily bonus already claimed")) {
-        bonusStatus.textContent = languages[currentLanguage].bonusAlreadyClaimed;
-      } else if (bonusStatus.textContent.includes("Daily bonus available")) {
-        bonusStatus.textContent = languages[currentLanguage].bonusAvailable;
-      } else if (bonusStatus.textContent.includes("Daily bonus claimed")) {
-        bonusStatus.textContent = languages[currentLanguage].bonusClaimed;
-      }
-      
-      // Update KYC status
-      const kycStatus = document.getElementById("kycStatus");
-      if (kycStatus.innerHTML.includes("You're eligible")) {
-        kycStatus.innerHTML = languages[currentLanguage].kycEligible.replace("Click here", `<a href="#" onclick="showModal('kycModal')" style="color:#ff8c00;">${currentLanguage === 'en' ? 'Click here' : 'এখানে ক্লিক করুন'}</a>`);
-      } else if (kycStatus.innerHTML.includes("KYC Pending")) {
-        kycStatus.innerHTML = `<span class="warning">${languages[currentLanguage].kycPending}</span>`;
-      } else if (kycStatus.innerHTML.includes("KYC Verified")) {
-        kycStatus.innerHTML = `<span class="success">${languages[currentLanguage].kycVerified}</span>`;
-      } else if (kycStatus.innerHTML.includes("more mining days")) {
-        const daysLeft = kycStatus.textContent.match(/\d+/)[0];
-        kycStatus.innerHTML = `<span class="info">${languages[currentLanguage].kycDaysLeft.replace('{days}', daysLeft)}</span>`;
-      }
-    }
-
-    // Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyDX7Z8o5xVJa8cSHvaurZg4FkJvN8mJuto",
       authDomain: "free-fire-kingdom.firebaseapp.com",
@@ -809,21 +490,11 @@
     let miningInterval;
     let progressInterval;
     let referralLink = "";
-    let miningChart;
-    const RUBY_TO_USDT = 0.0005;
-    const RUBY_TO_BDT = 0.05;
 
     function showNotification(message) {
       const notif = document.getElementById("notification");
       notif.textContent = message;
       notif.classList.add("show");
-      
-      // Play notification sound if allowed
-      if (Notification.permission === "granted") {
-        const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3');
-        audio.play().catch(e => console.log("Audio play failed:", e));
-      }
-      
       setTimeout(() => {
         notif.classList.remove("show");
       }, 5000);
@@ -839,37 +510,6 @@
 
     function showTerms() {
       showModal('termsModal');
-    }
-
-    function toggleChat() {
-      const chat = document.getElementById("chatContainer");
-      chat.style.display = chat.style.display === "none" ? "block" : "none";
-    }
-
-    function sendChatMessage() {
-      const input = document.getElementById("chatInput");
-      const message = input.value.trim();
-      if (!message) return;
-      
-      const chatBody = document.getElementById("chatBody");
-      const msgDiv = document.createElement("div");
-      msgDiv.className = "chat-message";
-      msgDiv.textContent = `You: ${message}`;
-      chatBody.appendChild(msgDiv);
-      chatBody.scrollTop = chatBody.scrollHeight;
-      
-      input.value = "";
-      
-      // Simulate response
-      setTimeout(() => {
-        const responseDiv = document.createElement("div");
-        responseDiv.className = "chat-message";
-        responseDiv.textContent = currentLanguage === 'en' 
-          ? "Support: Thank you for your message. Our team will get back to you soon." 
-          : "সহায়তা: আপনার বার্তার জন্য ধন্যবাদ। আমাদের দল শীঘ্রই আপনার সাথে যোগাযোগ করবে।";
-        chatBody.appendChild(responseDiv);
-        chatBody.scrollTop = chatBody.scrollHeight;
-      }, 1000);
     }
 
     function switchTab(tabId) {
@@ -892,25 +532,13 @@
         loadReferralData();
       } else if(tabId === 'withdrawals') {
         loadWithdrawalHistory();
-      } else if(tabId === 'history') {
-        loadMiningHistory();
       }
     }
 
     function login() {
       const name = document.getElementById("usernameInput").value.trim();
       const refCode = document.getElementById("referralInput").value.trim();
-      if (!name) return showNotification(currentLanguage === 'en' ? "Please enter your name" : "আপনার নাম লিখুন");
-      
-      // Request notification permission
-      if (Notification.permission !== "granted") {
-        Notification.requestPermission().then(permission => {
-          if (permission === "granted") {
-            console.log("Notification permission granted");
-          }
-        });
-      }
-      
+      if (!name) return showNotification("Please enter your name");
       currentUser = name;
       const userRef = db.ref("users/" + currentUser);
 
@@ -927,45 +555,21 @@
             banned: false,
             totalReferrals: 0,
             referralEarnings: 0,
-            joinDate: new Date().toISOString(),
-            miningHistory: {},
-            badges: [],
-            ip: generateFakeIP(),
-            deviceId: generateDeviceId()
+            joinDate: new Date().toISOString()
           });
           if (refCode) {
             // Give referral bonus after first mining session
             db.ref("users/" + refCode + "/totalReferrals").transaction(val => (val || 0) + 1);
-            showNotification(languages[currentLanguage].referralApplied);
+            showNotification("🎉 Referral link applied! Bonus will be awarded after your first mining session.");
           }
         } else {
           if (refCode && !snap.val().referral) {
             userRef.update({ referral: refCode });
             db.ref("users/" + refCode + "/totalReferrals").transaction(val => (val || 0) + 1);
-            showNotification(languages[currentLanguage].referralApplied);
-          }
-          
-          // Check device/IP
-          const userData = snap.val();
-          if (userData.deviceId !== generateDeviceId() || userData.ip !== generateFakeIP()) {
-            showNotification(currentLanguage === 'en' 
-              ? "⚠️ Multiple accounts from same device are not allowed" 
-              : "⚠️ একই ডিভাইস থেকে একাধিক অ্যাকাউন্ট অনুমোদিত নয়");
-            return;
+            showNotification("🎉 Referral link applied! Bonus will be awarded after your first mining session.");
           }
         }
         loadUser();
-      });
-    }
-
-    function generateFakeIP() {
-      return `${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`;
-    }
-
-    function generateDeviceId() {
-      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
       });
     }
 
@@ -986,8 +590,6 @@
         }
 
         document.getElementById("rubyCount").innerText = Number(data.rubies).toFixed(4);
-        document.getElementById("usdtValue").innerText = (data.rubies * RUBY_TO_USDT).toFixed(6);
-        document.getElementById("bdtValue").innerText = (data.rubies * RUBY_TO_BDT).toFixed(2);
         document.getElementById("miningDays").innerText = data.miningDays || 0;
 
         // Generate referral link
@@ -999,10 +601,10 @@
 
         // Check if bonus already claimed today
         if (data.lastBonus === today) {
-          document.getElementById("bonusStatus").textContent = languages[currentLanguage].bonusAlreadyClaimed;
+          document.getElementById("bonusStatus").innerText = "🎁 Daily bonus already claimed! Come back tomorrow.";
           document.getElementById("bonusBtn").disabled = true;
         } else {
-          document.getElementById("bonusStatus").textContent = languages[currentLanguage].bonusAvailable;
+          document.getElementById("bonusStatus").innerText = "🎁 Daily bonus available!";
           document.getElementById("bonusBtn").disabled = false;
         }
 
@@ -1011,13 +613,13 @@
           document.getElementById("progressContainer").style.display = "block";
           const remaining = data.miningEnd - now;
           updateProgressBar(remaining);
-          document.getElementById("miningStatus").textContent = languages[currentLanguage].miningActive + formatTime(remaining);
+          document.getElementById("miningStatus").innerText = "⛏️ Mining active - " + formatTime(remaining);
           startMiningInterval(data.miningEnd);
           startProgressInterval(data.miningEnd);
         } else {
           document.getElementById("mineBtn").disabled = false;
           document.getElementById("progressContainer").style.display = "none";
-          document.getElementById("miningStatus").textContent = languages[currentLanguage].readyToMine;
+          document.getElementById("miningStatus").innerText = "🕒 Ready to start mining";
           if (miningInterval) {
             clearInterval(miningInterval);
           }
@@ -1028,97 +630,34 @@
 
         if (data.kycRequested) {
           document.getElementById("kycStatus").innerHTML = data.kyc ? 
-            `<span class="success">${languages[currentLanguage].kycVerified}</span>` : 
-            `<span class="warning">${languages[currentLanguage].kycPending}</span>`;
+            '<span class="success">✅ KYC Verified</span>' : 
+            '<span class="warning">⌛ KYC Pending (admin approval required)</span>';
         } else if (data.miningDays >= 30) {
           document.getElementById("kycStatus").innerHTML = 
-            `<span class="success">${languages[currentLanguage].kycEligible.replace("Click here", `<a href="#" onclick="showModal('kycModal')" style="color:#ff8c00;">${currentLanguage === 'en' ? 'Click here' : 'এখানে ক্লিক করুন'}</a>`)}</span>`;
+            '<span class="success">🎉 You\'re eligible for KYC verification! <a href="#" onclick="showModal(\'kycModal\')" style="color:#ff8c00;">Click here</a> to verify</span>';
         } else {
           const daysLeft = 30 - (data.miningDays || 0);
           document.getElementById("kycStatus").innerHTML = 
-            `<span class="info">${languages[currentLanguage].kycDaysLeft.replace('{days}', daysLeft)}</span>`;
+            `<span class="info">📆 ${daysLeft} more mining days to unlock KYC</span>`;
         }
 
         document.getElementById("withdrawBtn").disabled = !data.kyc;
-        
-        // Update badges
-        updateBadges(data);
       });
 
       loadLeaderboard();
-    }
-
-    function updateBadges(userData) {
-      const badgeContainer = document.getElementById("badgeContainer");
-      badgeContainer.innerHTML = "";
-      
-      const badges = userData.badges || [];
-      
-      // Add automatic badges based on activity
-      if (userData.miningDays >= 1 && !badges.includes('first_mining')) {
-        badges.push('first_mining');
-        db.ref("users/" + currentUser + "/badges").set(badges);
-        showNotification(currentLanguage === 'en' 
-          ? "🎖️ New Badge Unlocked: First Miner!" 
-          : "🎖️ নতুন ব্যাজ আনলক: প্রথম মাইনার!");
-      }
-      
-      if (userData.miningDays >= 7 && !badges.includes('week_mining')) {
-        badges.push('week_mining');
-        db.ref("users/" + currentUser + "/badges").set(badges);
-        showNotification(currentLanguage === 'en' 
-          ? "🎖️ New Badge Unlocked: Weekly Miner!" 
-          : "🎖️ নতুন ব্যাজ আনলক: সাপ্তাহিক মাইনার!");
-      }
-      
-      if (userData.miningDays >= 30 && !badges.includes('month_mining')) {
-        badges.push('month_mining');
-        db.ref("users/" + currentUser + "/badges").set(badges);
-        showNotification(currentLanguage === 'en' 
-          ? "🎖️ New Badge Unlocked: Monthly Miner!" 
-          : "🎖️ নতুন ব্যাজ আনলক: মাসিক মাইনার!");
-      }
-      
-      if (userData.totalReferrals >= 5 && !badges.includes('referrals_5')) {
-        badges.push('referrals_5');
-        db.ref("users/" + currentUser + "/badges").set(badges);
-        showNotification(currentLanguage === 'en' 
-          ? "🎖️ New Badge Unlocked: Referral Master!" 
-          : "🎖️ নতুন ব্যাজ আনলক: রেফারেল মাস্টার!");
-      }
-      
-      if (userData.totalReferrals >= 10 && !badges.includes('referrals_10')) {
-        badges.push('referrals_10');
-        db.ref("users/" + currentUser + "/badges").set(badges);
-        showNotification(currentLanguage === 'en' 
-          ? "🎖️ New Badge Unlocked: Super Referrer!" 
-          : "🎖️ নতুন ব্যাজ আনলক: সুপার রেফারার!");
-      }
-      
-      // Display all badges
-      badges.forEach(badge => {
-        const badgeEl = document.createElement("span");
-        badgeEl.className = "badge";
-        badgeEl.textContent = languages[currentLanguage].badges[badge];
-        badgeEl.title = badge.replace('_', ' ');
-        badgeContainer.appendChild(badgeEl);
-      });
     }
 
     function showBanScreen() {
       document.getElementById("banScreen").style.display = "flex";
       document.getElementById("mainApp").style.display = "none";
       document.getElementById("authSection").style.display = "none";
-      updateLanguage();
     }
 
     function formatTime(ms) {
       const hours = Math.floor(ms / (1000 * 60 * 60));
       const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((ms % (1000 * 60)) / 1000);
-      return currentLanguage === 'en' 
-        ? `${hours}h ${minutes}m ${seconds}s remaining` 
-        : `${hours}ঘ ${minutes}মি ${seconds}সি বাকি`;
+      return `${hours}h ${minutes}m ${seconds}s remaining`;
     }
 
     function updateProgressBar(remaining) {
@@ -1138,37 +677,23 @@
           return;
         }
         updateProgressBar(remaining);
-        document.getElementById("miningStatus").textContent = languages[currentLanguage].miningActive + formatTime(remaining);
+        document.getElementById("miningStatus").innerText = "⛏️ Mining active - " + formatTime(remaining);
       }, 1000);
     }
 
     function startMiningInterval(endTime) {
       if (miningInterval) clearInterval(miningInterval);
-      
-      // First, add the base mining amount (0.05 rubies)
-      const userRef = db.ref("users/" + currentUser);
-      userRef.child("rubies").transaction(rubies => (rubies || 0) + 0.05);
-      
-      // Then start the interval for continuous mining
       miningInterval = setInterval(() => {
         const now = Date.now();
         if (now >= endTime) {
           clearInterval(miningInterval);
           document.getElementById("mineBtn").disabled = false;
           document.getElementById("progressContainer").style.display = "none";
-          document.getElementById("miningStatus").textContent = languages[currentLanguage].miningComplete;
-          
-          // Send push notification
-          if (Notification.permission === "granted") {
-            new Notification(languages[currentLanguage].notificationTitle, {
-              body: languages[currentLanguage].notificationBody,
-              icon: 'https://cdn-icons-png.flaticon.com/512/2583/2583344.png'
-            });
-          }
-          
-          showNotification(languages[currentLanguage].notificationBody);
+          document.getElementById("miningStatus").innerText = "✅ Mining finished! Start again to earn more";
+          showNotification("⛏️ Your mining session has completed!");
           
           // Award referral bonus if this was first mining session
+          const userRef = db.ref("users/" + currentUser);
           userRef.once("value").then(snap => {
             const data = snap.val();
             if (data.referral && data.miningDays === 1) { // First mining session completed
@@ -1177,17 +702,12 @@
               db.ref("users/" + data.referral + "/referralEarnings").transaction(val => (val || 0) + 10);
               // Give bonus to new user
               userRef.child("rubies").transaction(val => (val || 0) + 5);
-              showNotification(languages[currentLanguage].referralBonus);
+              showNotification("🎉 Referral bonus awarded! +5 Rubies for you and +10 for your referrer");
             }
-            
-            // Update mining history
-            const today = new Date().toISOString().slice(0, 10);
-            const updates = {};
-            updates[`miningHistory/${today}`] = 0.05; // 0.05 rubies per day
-            userRef.update(updates);
           });
           return;
         }
+        db.ref("users/" + currentUser + "/rubies").transaction(rubies => (rubies || 0) + 0.0002);
       }, 5000);
     }
 
@@ -1207,14 +727,10 @@
           startProgressInterval(end);
           document.getElementById("mineBtn").disabled = true;
           document.getElementById("progressContainer").style.display = "block";
-          document.getElementById("miningStatus").textContent = languages[currentLanguage].miningActive + formatTime(24 * 60 * 60 * 1000);
-          showNotification(currentLanguage === 'en' 
-            ? "⛏️ Mining started for 24 hours!" 
-            : "⛏️ ২৪ ঘন্টার জন্য মাইনিং শুরু হয়েছে!");
+          document.getElementById("miningStatus").innerText = "⛏️ Mining active - " + formatTime(24 * 60 * 60 * 1000);
+          showNotification("⛏️ Mining started for 24 hours!");
         } else {
-          showNotification(currentLanguage === 'en' 
-            ? "Mining is already active" 
-            : "মাইনিং ইতিমধ্যেই সক্রিয়");
+          showNotification("Mining is already active");
         }
       });
     }
@@ -1225,24 +741,16 @@
       userRef.once("value").then(snap => {
         const data = snap.val();
         if (data.lastBonus === today) {
-          document.getElementById("bonusStatus").textContent = languages[currentLanguage].bonusAlreadyClaimed;
-          showNotification(languages[currentLanguage].bonusAlreadyClaimed);
+          document.getElementById("bonusStatus").innerText = "🎁 Daily bonus already claimed!";
+          showNotification("You've already claimed your daily bonus today");
         } else {
           userRef.update({
             rubies: (data.rubies || 0) + 20,
             lastBonus: today
           });
-          document.getElementById("bonusStatus").textContent = languages[currentLanguage].bonusClaimed;
+          document.getElementById("bonusStatus").innerText = "✅ Daily bonus claimed! +20 Rubies";
           document.getElementById("bonusBtn").disabled = true;
-          showNotification(languages[currentLanguage].bonusClaimed);
-          
-          // Send push notification
-          if (Notification.permission === "granted") {
-            new Notification(languages[currentLanguage].notificationTitle, {
-              body: languages[currentLanguage].bonusClaimed,
-              icon: 'https://cdn-icons-png.flaticon.com/512/2583/2583344.png'
-            });
-          }
+          showNotification("🎁 Daily bonus claimed! +20 Rubies");
         }
       });
     }
@@ -1253,23 +761,19 @@
         const data = snap.val();
         const balance = data.rubies || 0;
         
-        const amount = prompt(currentLanguage === 'en' 
-          ? `Enter withdraw amount (Available: ${balance.toFixed(4)} Rubies, Minimum: 100 Rubies):` 
-          : `উত্তোলনের পরিমাণ লিখুন (উপলব্ধ: ${balance.toFixed(4)} রুবি, সর্বনিম্ন: ১০০ রুবি):`);
-        if (!amount || isNaN(amount)) return showNotification(languages[currentLanguage].invalidAmount);
+        const amount = prompt(`Enter withdraw amount (Available: ${balance.toFixed(4)} Rubies, Minimum: 100 Rubies):`);
+        if (!amount || isNaN(amount)) return showNotification("Invalid amount");
         
         if (parseFloat(amount) > balance) {
-          return showNotification(languages[currentLanguage].insufficientBalance);
+          return showNotification("Insufficient balance");
         }
         
         if (parseFloat(amount) < 100) {
-          return showNotification(languages[currentLanguage].minWithdrawal);
+          return showNotification("Minimum withdrawal amount is 100 Rubies");
         }
         
-        const contact = prompt(currentLanguage === 'en' 
-          ? "Enter contact info (e.g., phone number or email):" 
-          : "যোগাযোগের তথ্য লিখুন (যেমন, ফোন নম্বর বা ইমেইল):");
-        if (!contact) return showNotification(languages[currentLanguage].contactRequired);
+        const contact = prompt("Enter contact info (e.g., phone number or email):");
+        if (!contact) return showNotification("Contact info required");
         
         const reqRef = db.ref("withdrawals").push();
         reqRef.set({
@@ -1284,7 +788,7 @@
         // Deduct from balance
         userRef.child("rubies").transaction(rubies => (rubies || 0) - parseFloat(amount));
         
-        showNotification(languages[currentLanguage].withdrawalSubmitted);
+        showNotification("✅ Withdrawal request submitted! Processing may take 3-5 business days.");
       });
     }
 
@@ -1340,7 +844,7 @@
         referralList.innerHTML = "";
         
         if (!snap.exists()) {
-          referralList.innerHTML = `<p>${languages[currentLanguage].noReferrals}</p>`;
+          referralList.innerHTML = "<p>No referrals yet</p>";
           return;
         }
         
@@ -1349,7 +853,7 @@
           item.className = "leaderboard-item";
           item.innerHTML = `
             <span>${child.key}</span>
-            <span>${currentLanguage === 'en' ? 'Joined:' : 'যোগদান:'} ${new Date(child.val().joinDate).toLocaleDateString()}</span>
+            <span>Joined: ${new Date(child.val().joinDate).toLocaleDateString()}</span>
           `;
           referralList.appendChild(item);
         });
@@ -1362,7 +866,7 @@
         history.innerHTML = "";
         
         if (!snap.exists()) {
-          history.innerHTML = `<p>${languages[currentLanguage].noWithdrawals}</p>`;
+          history.innerHTML = "<p>No withdrawal history</p>";
           return;
         }
         
@@ -1381,71 +885,21 @@
           const item = document.createElement("div");
           item.className = "withdrawal-item";
           item.innerHTML = `
-            <div>${currentLanguage === 'en' ? 'Amount:' : 'পরিমাণ:'} ${w.amount.toFixed(4)} 💎</div>
-            <div>${currentLanguage === 'en' ? 'Date:' : 'তারিখ:'} ${new Date(w.timestamp).toLocaleString()}</div>
-            <div>${currentLanguage === 'en' ? 'Status:' : 'স্ট্যাটাস:'} <span class="withdrawal-status status-${w.status}">${w.status.toUpperCase()}</span></div>
+            <div>Amount: ${w.amount.toFixed(4)} 💎</div>
+            <div>Date: ${new Date(w.timestamp).toLocaleString()}</div>
+            <div>Status: <span class="withdrawal-status status-${w.status}">${w.status.toUpperCase()}</span></div>
           `;
           history.appendChild(item);
         });
       });
     }
 
-    function loadMiningHistory() {
-      db.ref("users/" + currentUser + "/miningHistory").once("value").then(snap => {
-        const data = snap.val() || {};
-        const dates = Object.keys(data).sort();
-        const rubies = dates.map(date => data[date]);
-        
-        const ctx = document.getElementById('miningChart').getContext('2d');
-        
-        if (miningChart) {
-          miningChart.destroy();
-        }
-        
-        miningChart = new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: dates.map(date => new Date(date).toLocaleDateString()),
-            datasets: [{
-              label: currentLanguage === 'en' ? 'Rubies Mined' : 'খননকৃত রুবি',
-              data: rubies,
-              backgroundColor: 'rgba(255, 0, 128, 0.7)',
-              borderColor: 'rgba(255, 0, 128, 1)',
-              borderWidth: 1
-            }]
-          },
-          options: {
-            responsive: true,
-            scales: {
-              y: {
-                beginAtZero: true,
-                title: {
-                  display: true,
-                  text: currentLanguage === 'en' ? 'Rubies' : 'রুবি'
-                }
-              },
-              x: {
-                title: {
-                  display: true,
-                  text: currentLanguage === 'en' ? 'Date' : 'তারিখ'
-                }
-              }
-            }
-          }
-        });
-      });
-    }
-
     function copyReferralLink() {
       navigator.clipboard.writeText(referralLink).then(() => {
-        showNotification(currentLanguage === 'en' 
-          ? "Referral link copied to clipboard!" 
-          : "রেফারেল লিংক ক্লিপবোর্ডে কপি করা হয়েছে!");
+        showNotification("Referral link copied to clipboard!");
       }).catch(err => {
         console.error("Failed to copy: ", err);
-        showNotification(currentLanguage === 'en' 
-          ? "Failed to copy link" 
-          : "লিংক কপি করতে ব্যর্থ");
+        showNotification("Failed to copy link");
       });
     }
 
@@ -1469,10 +923,11 @@
       const idNumber = document.getElementById("kycIdNumber").value.trim();
       
       if (!name || !dob || !idNumber) {
-        return showNotification(currentLanguage === 'en' 
-          ? "Please fill all required fields" 
-          : "সমস্ত প্রয়োজনীয় ক্ষেত্র পূরণ করুন");
+        return showNotification("Please fill all required fields");
       }
+      
+      // In a real app, you would upload the images to storage and save the URLs
+      // For this demo, we'll just simulate it
       
       const userRef = db.ref("users/" + currentUser);
       userRef.update({
@@ -1493,9 +948,7 @@
         status: "pending"
       });
       
-      showNotification(currentLanguage === 'en' 
-        ? "✅ KYC submitted for review! Please wait for admin approval." 
-        : "✅ KYC পর্যালোচনার জন্য জমা দেওয়া হয়েছে! অ্যাডমিন অনুমোদনের জন্য অপেক্ষা করুন।");
+      showNotification("✅ KYC submitted for review! Please wait for admin approval.");
       closeModal('kycModal');
     }
 
@@ -1512,9 +965,6 @@
         const notif = snap.val();
         showNotification("🔔 " + notif.message);
       });
-      
-      // Initialize language
-      updateLanguage();
     };
 
     function logout() {
