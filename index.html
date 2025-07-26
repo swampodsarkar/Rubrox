@@ -4,57 +4,93 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Rubrox Mining App</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    :root {
+      --primary: #ff0080;
+      --secondary: #ff8c00;
+      --accent: #ffd700;
+      --dark: #111;
+      --darker: #0a0a0a;
+      --light: #fff;
+      --gray: #ccc;
+      --success: #4CAF50;
+      --warning: #FFC107;
+      --error: #F44336;
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --card-shadow: 0 0 20px rgba(255, 0, 150, 0.4);
+    }
+    
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-tap-highlight-color: transparent;
     }
+    
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #111, #400040);
-      color: white;
+      font-family: 'Poppins', 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, var(--darker), #400040);
+      color: var(--light);
       text-align: center;
       padding: 20px;
       min-height: 100vh;
       position: relative;
       overflow-x: hidden;
     }
+    
     .container {
       max-width: 500px;
       margin: 0 auto;
-      background: rgba(255, 255, 255, 0.05);
+      background: var(--card-bg);
       border-radius: 15px;
       padding: 20px;
-      box-shadow: 0 0 20px rgba(255, 0, 150, 0.4);
+      box-shadow: var(--card-shadow);
       position: relative;
       width: 100%;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
     }
+    
     h1 {
       font-size: 1.8rem;
       margin-bottom: 15px;
-      color: #ffd700;
+      color: var(--accent);
+      text-shadow: 0 2px 5px rgba(0,0,0,0.3);
     }
+    
     h2 {
       font-size: 1.4rem;
       margin: 20px 0 10px;
-      color: #ff8c00;
+      color: var(--secondary);
     }
-    input[type="text"], input[type="number"], input[type="email"], input[type="tel"], select {
-      padding: 12px;
+    
+    input[type="text"], input[type="number"], input[type="email"], input[type="tel"], select, textarea {
+      padding: 12px 15px;
       width: 100%;
       border: none;
       border-radius: 8px;
       margin-bottom: 15px;
       background: rgba(255,255,255,0.1);
-      color: white;
+      color: var(--light);
       font-size: 16px;
+      transition: all 0.3s;
+      border: 1px solid rgba(255,255,255,0.1);
     }
+    
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(255, 0, 128, 0.3);
+    }
+    
     input::placeholder {
-      color: #ccc;
+      color: var(--gray);
     }
+    
     button {
-      background: #ff0080;
+      background: var(--primary);
       color: white;
       padding: 14px 24px;
       border: none;
@@ -65,56 +101,76 @@
       width: 100%;
       font-weight: bold;
       transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
+    
     button:hover {
       transform: translateY(-2px);
       box-shadow: 0 5px 15px rgba(255, 0, 128, 0.4);
     }
+    
+    button:active {
+      transform: translateY(0);
+    }
+    
     button:disabled {
       background: #555;
       cursor: not-allowed;
       transform: none;
       box-shadow: none;
+      opacity: 0.7;
     }
+    
     button.secondary {
       background: #333;
     }
+    
     .rubies {
       font-size: 2.2rem;
       margin: 20px 0;
-      color: #ffd700;
+      color: var(--accent);
       font-weight: bold;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.3);
     }
+    
     .info {
       font-size: 0.9rem;
-      color: #ccc;
+      color: var(--gray);
       margin: 8px 0;
     }
+    
     .success {
-      color: #4CAF50;
+      color: var(--success);
     }
+    
     .warning {
-      color: #FFC107;
+      color: var(--warning);
     }
+    
     .error {
-      color: #F44336;
+      color: var(--error);
     }
+    
     #logoutBtn {
       position: absolute;
       top: 10px;
       right: 10px;
-      background: red;
+      background: var(--error);
       border-radius: 8px;
       padding: 6px 12px;
       font-size: 14px;
       width: auto;
     }
+    
     #notification {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      background: linear-gradient(90deg, #ff0080, #ff8c00);
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
       color: white;
       padding: 15px;
       font-weight: bold;
@@ -122,17 +178,23 @@
       transform: translateY(-100%);
       transition: transform 0.3s ease-out;
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
     }
+    
     #notification.show {
       transform: translateY(0);
     }
+    
     .ban-screen {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background: black;
+      background: var(--dark);
       z-index: 2000;
       display: flex;
       flex-direction: column;
@@ -140,54 +202,100 @@
       align-items: center;
       padding: 20px;
       text-align: center;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><pattern id="pattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="40" height="40" fill="black"/><path d="M0,0 L40,40" stroke="red" stroke-width="1"/><path d="M40,0 L0,40" stroke="red" stroke-width="1"/></pattern><rect x="0" y="0" width="100%" height="100%" fill="url(%23pattern)" opacity="0.3"/></svg>');
     }
+    
     .ban-screen h2 {
-      color: red;
+      color: var(--error);
       font-size: 2rem;
       margin-bottom: 20px;
     }
+    
     .ban-screen p {
       font-size: 1.2rem;
       margin-bottom: 30px;
       color: white;
     }
+    
     .ban-screen button {
-      background: red;
+      background: var(--error);
       max-width: 200px;
     }
+    
     .leaderboard-item {
       display: flex;
       justify-content: space-between;
-      padding: 10px;
-      margin: 5px 0;
+      padding: 12px;
+      margin: 8px 0;
       background: rgba(255,255,255,0.1);
       border-radius: 8px;
+      align-items: center;
+      transition: all 0.3s;
     }
+    
+    .leaderboard-item:hover {
+      transform: translateX(5px);
+      background: rgba(255,255,255,0.15);
+    }
+    
     .leaderboard-rank {
       font-weight: bold;
-      color: #ffd700;
+      color: var(--accent);
+      min-width: 30px;
+      text-align: center;
     }
+    
     .leaderboard-name {
       flex-grow: 1;
       text-align: left;
       padding-left: 15px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
+    
     .leaderboard-rubies {
       font-weight: bold;
+      min-width: 100px;
+      text-align: right;
     }
+    
     .progress-container {
       width: 100%;
       background: rgba(255,255,255,0.1);
       border-radius: 10px;
       margin: 15px 0;
       height: 10px;
+      overflow: hidden;
     }
+    
     .progress-bar {
       height: 100%;
       border-radius: 10px;
-      background: linear-gradient(90deg, #ff0080, #ff8c00);
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
       transition: width 0.3s;
+      position: relative;
     }
+    
+    .progress-bar::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, 
+        rgba(255,255,255,0) 0%, 
+        rgba(255,255,255,0.3) 50%, 
+        rgba(255,255,255,0) 100%);
+      animation: shimmer 2s infinite;
+    }
+    
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    
     .modal {
       display: none;
       position: fixed;
@@ -200,7 +308,14 @@
       justify-content: center;
       align-items: center;
       padding: 20px;
+      animation: fadeIn 0.3s;
     }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
     .modal-content {
       background: linear-gradient(135deg, #222, #500050);
       padding: 20px;
@@ -209,80 +324,169 @@
       width: 100%;
       max-height: 90vh;
       overflow-y: auto;
+      animation: slideUp 0.3s;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.1);
     }
+    
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
     .close-modal {
       float: right;
       font-size: 1.5rem;
       cursor: pointer;
+      transition: all 0.3s;
+      padding: 5px;
+      border-radius: 50%;
     }
+    
+    .close-modal:hover {
+      background: rgba(255,255,255,0.1);
+      transform: rotate(90deg);
+    }
+    
     .tab-container {
       display: flex;
       margin-bottom: 15px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      overflow: hidden;
     }
+    
     .tab {
       flex: 1;
-      padding: 10px;
-      background: rgba(255,255,255,0.1);
+      padding: 12px;
       cursor: pointer;
-      border-bottom: 3px solid transparent;
+      transition: all 0.3s;
+      text-align: center;
+      position: relative;
     }
+    
     .tab.active {
-      border-bottom: 3px solid #ff0080;
       font-weight: bold;
+      background: rgba(255,255,255,0.2);
     }
+    
+    .tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--primary);
+    }
+    
     .tab-content {
       display: none;
+      animation: fadeIn 0.3s;
     }
+    
     .tab-content.active {
       display: block;
     }
+    
     .referral-link {
       background: rgba(255,255,255,0.1);
-      padding: 10px;
+      padding: 12px;
       border-radius: 8px;
       margin: 10px 0;
       word-break: break-all;
+      font-family: monospace;
+      position: relative;
     }
+    
+    .referral-link::after {
+      content: '📋';
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      opacity: 0.7;
+      transition: all 0.3s;
+    }
+    
+    .referral-link:hover::after {
+      opacity: 1;
+      transform: translateY(-50%) scale(1.1);
+    }
+    
     .referral-stats {
       display: flex;
       justify-content: space-between;
       margin: 15px 0;
+      gap: 10px;
     }
+    
     .stat-box {
       background: rgba(255,255,255,0.1);
-      padding: 10px;
+      padding: 15px;
       border-radius: 8px;
       flex: 1;
-      margin: 0 5px;
+      transition: all 0.3s;
     }
+    
+    .stat-box:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .stat-box div:first-child {
+      font-size: 0.9rem;
+      color: var(--gray);
+      margin-bottom: 5px;
+    }
+    
+    .stat-box div:last-child {
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+    
     .withdrawal-item {
       background: rgba(255,255,255,0.1);
-      padding: 10px;
+      padding: 12px;
       border-radius: 8px;
-      margin: 5px 0;
+      margin: 8px 0;
       text-align: left;
+      transition: all 0.3s;
     }
+    
+    .withdrawal-item:hover {
+      transform: translateX(5px);
+      background: rgba(255,255,255,0.15);
+    }
+    
     .withdrawal-status {
       float: right;
       padding: 3px 8px;
       border-radius: 5px;
       font-size: 0.8rem;
+      font-weight: bold;
     }
+    
     .status-pending {
-      background: #FFC107;
+      background: var(--warning);
       color: black;
     }
+    
     .status-approved {
-      background: #4CAF50;
+      background: var(--success);
       color: white;
     }
+    
     .status-rejected {
-      background: #F44336;
+      background: var(--error);
       color: white;
     }
+    
     .kyc-form {
       text-align: left;
     }
+    
     .kyc-upload {
       border: 2px dashed rgba(255,255,255,0.3);
       padding: 20px;
@@ -290,106 +494,485 @@
       margin: 10px 0;
       border-radius: 8px;
       cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
     }
+    
+    .kyc-upload:hover {
+      border-color: var(--primary);
+      background: rgba(255,255,255,0.05);
+    }
+    
+    .kyc-upload input[type="file"] {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+    
+    .kyc-upload img {
+      max-width: 100%;
+      max-height: 150px;
+      display: none;
+      margin-top: 10px;
+      border-radius: 5px;
+    }
+    
+    .user-profile {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      padding: 10px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+    }
+    
+    .profile-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-right: 15px;
+    }
+    
+    .profile-info {
+      text-align: left;
+      flex-grow: 1;
+    }
+    
+    .profile-name {
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+    
+    .profile-level {
+      font-size: 0.8rem;
+      color: var(--gray);
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin: 15px 0;
+    }
+    
+    .stat-card {
+      background: rgba(255,255,255,0.1);
+      padding: 15px;
+      border-radius: 8px;
+      transition: all 0.3s;
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .stat-card .stat-value {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--accent);
+      margin: 5px 0;
+    }
+    
+    .stat-card .stat-label {
+      font-size: 0.8rem;
+      color: var(--gray);
+    }
+    
+    .badge-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 15px 0;
+    }
+    
+    .badge {
+      background: rgba(255,255,255,0.1);
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .badge i {
+      color: var(--accent);
+    }
+    
+    .mining-animation {
+      position: relative;
+      height: 80px;
+      margin: 20px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .pickaxe {
+      position: absolute;
+      font-size: 2rem;
+      animation: mine 1.5s infinite ease-in-out;
+      transform-origin: bottom right;
+    }
+    
+    @keyframes mine {
+      0%, 100% { transform: rotate(-10deg); }
+      50% { transform: rotate(10deg); }
+    }
+    
+    .rock {
+      position: absolute;
+      font-size: 3rem;
+      animation: shake 1.5s infinite;
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-3px); }
+      75% { transform: translateX(3px); }
+    }
+    
+    .sparkle {
+      position: absolute;
+      font-size: 1rem;
+      color: var(--accent);
+      opacity: 0;
+      animation: sparkle 1.5s infinite;
+    }
+    
+    @keyframes sparkle {
+      0%, 100% { opacity: 0; transform: scale(0); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+    
+    .settings-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px;
+      margin: 8px 0;
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      align-items: center;
+    }
+    
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+    
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 24px;
+    }
+    
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    
+    input:checked + .toggle-slider {
+      background-color: var(--primary);
+    }
+    
+    input:checked + .toggle-slider:before {
+      transform: translateX(26px);
+    }
+    
+    .dark-mode {
+      --dark: #0a0a0a;
+      --darker: #000;
+      --light: #f0f0f0;
+      --card-bg: rgba(255, 255, 255, 0.05);
+    }
+    
+    .light-mode {
+      --dark: #f5f5f5;
+      --darker: #e0e0e0;
+      --light: #333;
+      --gray: #666;
+      --card-bg: rgba(255, 255, 255, 0.8);
+      --card-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .vip-badge {
+      background: linear-gradient(90deg, #ffd700, #ff8c00);
+      color: black;
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-size: 0.7rem;
+      font-weight: bold;
+      margin-left: 5px;
+      display: inline-block;
+    }
+    
+    .news-card {
+      background: rgba(255,255,255,0.1);
+      padding: 15px;
+      border-radius: 8px;
+      margin: 10px 0;
+      text-align: left;
+      transition: all 0.3s;
+    }
+    
+    .news-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .news-date {
+      font-size: 0.8rem;
+      color: var(--gray);
+      margin-bottom: 5px;
+    }
+    
+    .news-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    
+    .news-content {
+      font-size: 0.9rem;
+    }
+    
+    .floating-action-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 5px 15px rgba(255, 0, 128, 0.4);
+      cursor: pointer;
+      z-index: 100;
+      transition: all 0.3s;
+    }
+    
+    .floating-action-btn:hover {
+      transform: scale(1.1) translateY(-5px);
+      box-shadow: 0 8px 20px rgba(255, 0, 128, 0.6);
+    }
+    
+    .floating-action-btn:active {
+      transform: scale(0.95);
+    }
+    
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background-color: var(--accent);
+      opacity: 0;
+      z-index: 9999;
+      animation: confetti 3s ease-out;
+    }
+    
+    @keyframes confetti {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+    
     @media (max-width: 480px) {
       .container {
         padding: 15px;
       }
+      
       h1 {
         font-size: 1.5rem;
       }
+      
       h2 {
         font-size: 1.2rem;
       }
+      
       button {
         padding: 12px 20px;
       }
+      
       .rubies {
         font-size: 1.8rem;
       }
+      
       .stat-box {
-        padding: 8px 5px;
+        padding: 12px 8px;
         font-size: 0.8rem;
+      }
+      
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .floating-action-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
       }
     }
   </style>
 </head>
 <body>
-  <div id="notification">New notification!</div>
+  <div id="notification"><i class="fas fa-bell"></i> New notification!</div>
 
   <div class="container">
-    <button id="logoutBtn" onclick="logout()" style="display:none;">Logout</button>
-    <h1>💎 Rubrox Miner</h1>
+    <button id="logoutBtn" onclick="logout()" style="display:none;"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    <h1><i class="fas fa-gem"></i> Rubrox Miner</h1>
     <div id="authSection">
-      <p>Enter Your Name:</p>
+      <div class="user-profile" style="justify-content: center; background: none;">
+        <div class="profile-avatar">?</div>
+        <div class="profile-info">
+          <div class="profile-name">Guest</div>
+          <div class="profile-level">Not logged in</div>
+        </div>
+      </div>
+      
       <input type="text" id="usernameInput" placeholder="Your Name" />
       <input type="text" id="referralInput" placeholder="Referral Code (optional)" />
       <br />
-      <button onclick="login()">Start Mining</button>
-      <p class="info">By registering, you agree to our <a href="#" onclick="showTerms()" style="color:#ff8c00;">Terms of Service</a></p>
+      <button onclick="login()"><i class="fas fa-play"></i> Start Mining</button>
+      <p class="info">By registering, you agree to our <a href="#" onclick="showTerms()" style="color:var(--secondary);">Terms of Service</a></p>
     </div>
 
     <div id="mainApp" style="display:none;">
-      <p>👋 Welcome, <span id="userName" style="color:#ff8c00;font-weight:bold;"></span></p>
-      <p class="rubies">💎 <span id="rubyCount">0</span> </p>
-      <p>📅 Mining Days: <span id="miningDays">0</span></p>
+      <div class="user-profile">
+        <div class="profile-avatar" id="profileAvatar">U</div>
+        <div class="profile-info">
+          <div class="profile-name" id="userName">User</div>
+          <div class="profile-level">Level <span id="userLevel">1</span> Miner</div>
+        </div>
+      </div>
+      
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Total Rubies</div>
+          <div class="stat-value"><i class="fas fa-gem"></i> <span id="rubyCount">0</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Mining Days</div>
+          <div class="stat-value"><i class="fas fa-calendar-alt"></i> <span id="miningDays">0</span></div>
+        </div>
+      </div>
+      
+      <div class="mining-animation" id="miningAnimation" style="display:none;">
+        <div class="rock">🪨</div>
+        <div class="pickaxe">⛏️</div>
+        <div class="sparkle" style="top:20px; left:60px;">✨</div>
+        <div class="sparkle" style="top:40px; left:40px;">✨</div>
+        <div class="sparkle" style="top:30px; left:80px;">✨</div>
+      </div>
+      
       <p class="info" id="miningStatus"></p>
       <div class="progress-container" id="progressContainer" style="display:none;">
         <div class="progress-bar" id="progressBar"></div>
       </div>
-      <button id="mineBtn" onclick="startMining()">⛏️ Start 24h Mining</button>
-      <button onclick="claimBonus()" id="bonusBtn">🎁 Claim Daily Bonus</button>
+      
+      <button id="mineBtn" onclick="startMining()"><i class="fas fa-hammer"></i> Start 24h Mining</button>
+      <button onclick="claimBonus()" id="bonusBtn"><i class="fas fa-gift"></i> Claim Daily Bonus</button>
       <p class="info" id="bonusStatus"></p>
       <p class="info" id="kycStatus"></p>
-      <button onclick="requestWithdraw()" id="withdrawBtn" disabled>💵 Request Withdraw</button>
+      
+      <div class="badge-container">
+        <div class="badge" id="kycBadge"><i class="fas fa-id-card"></i> KYC</div>
+        <div class="badge" id="vipBadge" style="display:none;"><i class="fas fa-crown"></i> VIP</div>
+        <div class="badge" id="refBadge"><i class="fas fa-users"></i> Referrals</div>
+      </div>
+      
+      <button onclick="requestWithdraw()" id="withdrawBtn" disabled><i class="fas fa-money-bill-wave"></i> Request Withdraw</button>
       
       <div class="tab-container">
-        <div class="tab active" onclick="switchTab('leaderboard')">🏆 Leaderboard</div>
-        <div class="tab" onclick="switchTab('referrals')">👥 Referrals</div>
-        <div class="tab" onclick="switchTab('withdrawals')">💸 Withdrawals</div>
+        <div class="tab active" onclick="switchTab('leaderboard')"><i class="fas fa-trophy"></i> Leaderboard</div>
+        <div class="tab" onclick="switchTab('referrals')"><i class="fas fa-users"></i> Referrals</div>
+        <div class="tab" onclick="switchTab('withdrawals')"><i class="fas fa-wallet"></i> Wallet</div>
       </div>
       
       <div id="leaderboard" class="tab-content active"></div>
       
       <div id="referrals" class="tab-content">
-        <h3>Your Referral Link</h3>
-        <div class="referral-link" id="referralLink">t.me/Rubrox_Mining2_Bot/Rubrox.</div>
-        <button onclick="copyReferralLink()">📋 Copy Link</button>
+        <h3><i class="fas fa-link"></i> Your Referral Link</h3>
+        <div class="referral-link" id="referralLink">Loading...</div>
+        <button onclick="copyReferralLink()"><i class="fas fa-copy"></i> Copy Link</button>
         
         <div class="referral-stats">
           <div class="stat-box">
-            <div>Total Referrals</div>
+            <div><i class="fas fa-users"></i> Total Referrals</div>
             <div id="totalReferrals">0</div>
           </div>
           <div class="stat-box">
-            <div>Earned from Referrals</div>
-            <div id="referralEarnings">0 💎</div>
+            <div><i class="fas fa-coins"></i> Referral Earnings</div>
+            <div id="referralEarnings">0 <i class="fas fa-gem"></i></div>
           </div>
         </div>
         
-        <h3>Your Referrals</h3>
+        <h3><i class="fas fa-user-plus"></i> Your Referrals</h3>
         <div id="referralList"></div>
       </div>
       
       <div id="withdrawals" class="tab-content">
-        <h3>Withdrawal History</h3>
+        <h3><i class="fas fa-history"></i> Withdrawal History</h3>
         <div id="withdrawalHistory"></div>
+        
+        <h3><i class="fas fa-wallet"></i> Wallet Settings</h3>
+        <input type="text" id="walletAddress" placeholder="Enter your crypto wallet address" />
+        <select id="walletType">
+          <option value="btc">Bitcoin (BTC)</option>
+          <option value="eth">Ethereum (ETH)</option>
+          <option value="usdt">USDT (TRC20)</option>
+          <option value="other">Other</option>
+        </select>
+        <button onclick="saveWallet()"><i class="fas fa-save"></i> Save Wallet</button>
       </div>
     </div>
   </div>
 
   <div id="banScreen" class="ban-screen" style="display:none;">
-    <h2>ACCOUNT BANNED</h2>
+    <h2><i class="fas fa-ban"></i> ACCOUNT BANNED</h2>
     <p>Your account has been suspended by the administrator.</p>
     <p>Please contact support if you believe this is a mistake.</p>
-    <button onclick="logout()">Return to Login</button>
+    <button onclick="logout()"><i class="fas fa-sign-out-alt"></i> Return to Login</button>
   </div>
 
   <!-- KYC Verification Modal -->
   <div id="kycModal" class="modal">
     <div class="modal-content">
       <span class="close-modal" onclick="closeModal('kycModal')">&times;</span>
-      <h2>KYC Verification</h2>
+      <h2><i class="fas fa-id-card"></i> KYC Verification</h2>
       <p>To withdraw your rubies, please complete KYC verification by providing the following information:</p>
       
       <div class="kyc-form">
@@ -411,26 +994,26 @@
         
         <label>ID Photo (Front)</label>
         <div class="kyc-upload" onclick="document.getElementById('kycFront').click()">
-          <p>Click to upload ID Front</p>
+          <p><i class="fas fa-camera"></i> Click to upload ID Front</p>
           <input type="file" id="kycFront" accept="image/*" style="display:none;" onchange="previewImage(this, 'kycFrontPreview')">
           <img id="kycFrontPreview" style="max-width:100%; max-height:150px; display:none;">
         </div>
         
         <label>ID Photo (Back)</label>
         <div class="kyc-upload" onclick="document.getElementById('kycBack').click()">
-          <p>Click to upload ID Back</p>
+          <p><i class="fas fa-camera"></i> Click to upload ID Back</p>
           <input type="file" id="kycBack" accept="image/*" style="display:none;" onchange="previewImage(this, 'kycBackPreview')">
           <img id="kycBackPreview" style="max-width:100%; max-height:150px; display:none;">
         </div>
         
         <label>Selfie with ID</label>
         <div class="kyc-upload" onclick="document.getElementById('kycSelfie').click()">
-          <p>Click to upload Selfie with ID</p>
+          <p><i class="fas fa-user"></i> Click to upload Selfie with ID</p>
           <input type="file" id="kycSelfie" accept="image/*" style="display:none;" onchange="previewImage(this, 'kycSelfiePreview')">
           <img id="kycSelfiePreview" style="max-width:100%; max-height:150px; display:none;">
         </div>
         
-        <button onclick="submitKYC()">Submit Verification</button>
+        <button onclick="submitKYC()"><i class="fas fa-check"></i> Submit Verification</button>
       </div>
     </div>
   </div>
@@ -439,7 +1022,7 @@
   <div id="termsModal" class="modal">
     <div class="modal-content">
       <span class="close-modal" onclick="closeModal('termsModal')">&times;</span>
-      <h2>Terms of Service</h2>
+      <h2><i class="fas fa-file-contract"></i> Terms of Service</h2>
       <div style="text-align:left; max-height:60vh; overflow-y:auto;">
         <h3>1. Account Terms</h3>
         <p>You must be at least 18 years old to use this service. You are responsible for maintaining the security of your account.</p>
@@ -462,15 +1045,94 @@
           <li>Providing false information during KYC</li>
         </ul>
         
-        <h3>6. Liability</h3>
+        <h3>6. VIP Program</h3>
+        <p>VIP members earn 50% more rubies and get priority withdrawals. Upgrade to VIP by inviting 10 active referrals.</p>
+        
+        <h3>7. Liability</h3>
         <p>We are not responsible for any losses resulting from unauthorized access to your account. Ruby values may fluctuate.</p>
       </div>
-      <button onclick="closeModal('termsModal')">I Understand</button>
+      <button onclick="closeModal('termsModal')"><i class="fas fa-check"></i> I Understand</button>
     </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal('settingsModal')">&times;</span>
+      <h2><i class="fas fa-cog"></i> Settings</h2>
+      
+      <div class="settings-item">
+        <div>
+          <i class="fas fa-moon"></i> Dark Mode
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="darkModeToggle" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      
+      <div class="settings-item">
+        <div>
+          <i class="fas fa-bell"></i> Notifications
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="notificationsToggle" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      
+      <div class="settings-item">
+        <div>
+          <i class="fas fa-vibrate"></i> Haptic Feedback
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="hapticToggle" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      
+      <h3 style="margin-top:20px;"><i class="fas fa-info-circle"></i> About</h3>
+      <p style="text-align:left; margin:10px 0;">Rubrox Miner v2.0.1</p>
+      <p style="text-align:left; margin:10px 0;">© 2023 Rubrox Mining. All rights reserved.</p>
+      
+      <button onclick="showSupport()"><i class="fas fa-headset"></i> Contact Support</button>
+    </div>
+  </div>
+
+  <!-- News Modal -->
+  <div id="newsModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal('newsModal')">&times;</span>
+      <h2><i class="fas fa-newspaper"></i> Latest News</h2>
+      
+      <div class="news-card">
+        <div class="news-date">June 15, 2023</div>
+        <div class="news-title">New VIP Program Launched!</div>
+        <div class="news-content">We're excited to announce our new VIP program. Invite 10 active referrals to become a VIP and earn 50% more rubies!</div>
+      </div>
+      
+      <div class="news-card">
+        <div class="news-date">June 1, 2023</div>
+        <div class="news-title">Withdrawal Processing Times Improved</div>
+        <div class="news-content">We've upgraded our systems and now process withdrawals within 24-48 hours for verified accounts.</div>
+      </div>
+      
+      <div class="news-card">
+        <div class="news-date">May 20, 2023</div>
+        <div class="news-title">New Mobile App Coming Soon</div>
+        <div class="news-content">Our native mobile app is in development and will be released next month with push notifications and more features.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Action Button -->
+  <div class="floating-action-btn" onclick="showSettings()">
+    <i class="fas fa-cog"></i>
   </div>
 
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <script>
     const firebaseConfig = {
@@ -490,10 +1152,89 @@
     let miningInterval;
     let progressInterval;
     let referralLink = "";
+    let isVip = false;
+
+    // New Feature 1: Dark/Light Mode Toggle
+    function toggleDarkMode() {
+      document.body.classList.toggle('light-mode');
+      localStorage.setItem('darkMode', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+    }
+
+    // New Feature 2: Haptic Feedback
+    function vibrate() {
+      if ('vibrate' in navigator && document.getElementById('hapticToggle').checked) {
+        navigator.vibrate(50);
+      }
+    }
+
+    // New Feature 3: Confetti Effect
+    function showConfetti() {
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    }
+
+    // New Feature 4: User Level System
+    function calculateLevel(miningDays) {
+      return Math.floor(miningDays / 10) + 1;
+    }
+
+    // New Feature 5: VIP Status Check
+    function checkVipStatus(totalReferrals) {
+      isVip = totalReferrals >= 10;
+      document.getElementById('vipBadge').style.display = isVip ? 'flex' : 'none';
+      return isVip;
+    }
+
+    // New Feature 6: Wallet Address Management
+    function saveWallet() {
+      const address = document.getElementById('walletAddress').value.trim();
+      const type = document.getElementById('walletType').value;
+      
+      if (!address) {
+        showNotification('Please enter a wallet address');
+        return;
+      }
+      
+      db.ref("users/" + currentUser + "/wallet").set({
+        address: address,
+        type: type,
+        updatedAt: new Date().toISOString()
+      });
+      
+      showNotification('Wallet address saved successfully!');
+    }
+
+    // New Feature 7: Support Contact
+    function showSupport() {
+      closeModal('settingsModal');
+      showModal('newsModal');
+    }
+
+    // New Feature 8: Settings Panel
+    function showSettings() {
+      showModal('settingsModal');
+    }
+
+    // New Feature 9: Mining Animation
+    function toggleMiningAnimation(show) {
+      document.getElementById('miningAnimation').style.display = show ? 'flex' : 'none';
+    }
+
+    // New Feature 10: Profile Avatar
+    function updateProfileAvatar(name) {
+      const avatar = document.getElementById('profileAvatar');
+      if (name && name.length > 0) {
+        avatar.textContent = name.charAt(0).toUpperCase();
+      }
+    }
 
     function showNotification(message) {
+      vibrate();
       const notif = document.getElementById("notification");
-      notif.textContent = message;
+      notif.innerHTML = `<i class="fas fa-bell"></i> ${message}`;
       notif.classList.add("show");
       setTimeout(() => {
         notif.classList.remove("show");
@@ -501,10 +1242,12 @@
     }
 
     function showModal(modalId) {
+      vibrate();
       document.getElementById(modalId).style.display = "flex";
     }
 
     function closeModal(modalId) {
+      vibrate();
       document.getElementById(modalId).style.display = "none";
     }
 
@@ -513,25 +1256,23 @@
     }
 
     function switchTab(tabId) {
-      // Hide all tab contents
+      vibrate();
       document.querySelectorAll('.tab-content').forEach(tab => {
         tab.classList.remove('active');
       });
       
-      // Deactivate all tabs
       document.querySelectorAll('.tab').forEach(tab => {
         tab.classList.remove('active');
       });
       
-      // Activate selected tab
       document.getElementById(tabId).classList.add('active');
       document.querySelector(`.tab[onclick="switchTab('${tabId}')"]`).classList.add('active');
       
-      // Load data if needed
       if(tabId === 'referrals') {
         loadReferralData();
       } else if(tabId === 'withdrawals') {
         loadWithdrawalHistory();
+        loadWalletInfo();
       }
     }
 
@@ -540,6 +1281,7 @@
       const refCode = document.getElementById("referralInput").value.trim();
       if (!name) return showNotification("Please enter your name");
       currentUser = name;
+      updateProfileAvatar(name);
       const userRef = db.ref("users/" + currentUser);
 
       userRef.once("value", (snap) => {
@@ -555,10 +1297,11 @@
             banned: false,
             totalReferrals: 0,
             referralEarnings: 0,
-            joinDate: new Date().toISOString()
+            joinDate: new Date().toISOString(),
+            level: 1,
+            isVip: false
           });
           if (refCode) {
-            // Give referral bonus after first mining session
             db.ref("users/" + refCode + "/totalReferrals").transaction(val => (val || 0) + 1);
             showNotification("🎉 Referral link applied! Bonus will be awarded after your first mining session.");
           }
@@ -591,6 +1334,13 @@
 
         document.getElementById("rubyCount").innerText = Number(data.rubies).toFixed(4);
         document.getElementById("miningDays").innerText = data.miningDays || 0;
+        
+        // Update user level
+        const level = calculateLevel(data.miningDays || 0);
+        document.getElementById("userLevel").textContent = level;
+        
+        // Check VIP status
+        checkVipStatus(data.totalReferrals || 0);
 
         // Generate referral link
         referralLink = window.location.href.split('?')[0] + '?ref=' + currentUser;
@@ -616,6 +1366,7 @@
           document.getElementById("miningStatus").innerText = "⛏️ Mining active - " + formatTime(remaining);
           startMiningInterval(data.miningEnd);
           startProgressInterval(data.miningEnd);
+          toggleMiningAnimation(true);
         } else {
           document.getElementById("mineBtn").disabled = false;
           document.getElementById("progressContainer").style.display = "none";
@@ -626,25 +1377,41 @@
           if (progressInterval) {
             clearInterval(progressInterval);
           }
+          toggleMiningAnimation(false);
         }
 
         if (data.kycRequested) {
           document.getElementById("kycStatus").innerHTML = data.kyc ? 
             '<span class="success">✅ KYC Verified</span>' : 
             '<span class="warning">⌛ KYC Pending (admin approval required)</span>';
+          document.getElementById("kycBadge").innerHTML = data.kyc ? 
+            '<i class="fas fa-check-circle"></i> KYC Verified' : 
+            '<i class="fas fa-clock"></i> KYC Pending';
         } else if (data.miningDays >= 30) {
           document.getElementById("kycStatus").innerHTML = 
-            '<span class="success">🎉 You\'re eligible for KYC verification! <a href="#" onclick="showModal(\'kycModal\')" style="color:#ff8c00;">Click here</a> to verify</span>';
+            '<span class="success">🎉 You\'re eligible for KYC verification! <a href="#" onclick="showModal(\'kycModal\')" style="color:var(--secondary);">Click here</a> to verify</span>';
+          document.getElementById("kycBadge").innerHTML = '<i class="fas fa-id-card"></i> KYC Ready';
         } else {
           const daysLeft = 30 - (data.miningDays || 0);
           document.getElementById("kycStatus").innerHTML = 
             `<span class="info">📆 ${daysLeft} more mining days to unlock KYC</span>`;
+          document.getElementById("kycBadge").innerHTML = '<i class="fas fa-lock"></i> KYC Locked';
         }
 
         document.getElementById("withdrawBtn").disabled = !data.kyc;
       });
 
       loadLeaderboard();
+    }
+
+    function loadWalletInfo() {
+      db.ref("users/" + currentUser + "/wallet").once("value").then(snap => {
+        if (snap.exists()) {
+          const wallet = snap.val();
+          document.getElementById("walletAddress").value = wallet.address || "";
+          document.getElementById("walletType").value = wallet.type || "btc";
+        }
+      });
     }
 
     function showBanScreen() {
@@ -691,12 +1458,13 @@
           document.getElementById("progressContainer").style.display = "none";
           document.getElementById("miningStatus").innerText = "✅ Mining finished! Start again to earn more";
           showNotification("⛏️ Your mining session has completed!");
+          toggleMiningAnimation(false);
           
           // Award referral bonus if this was first mining session
           const userRef = db.ref("users/" + currentUser);
           userRef.once("value").then(snap => {
             const data = snap.val();
-            if (data.referral && data.miningDays === 1) { // First mining session completed
+            if (data.referral && data.miningDays === 1) {
               // Give bonus to referrer
               db.ref("users/" + data.referral + "/rubies").transaction(val => (val || 0) + 10);
               db.ref("users/" + data.referral + "/referralEarnings").transaction(val => (val || 0) + 10);
@@ -704,14 +1472,25 @@
               userRef.child("rubies").transaction(val => (val || 0) + 5);
               showNotification("🎉 Referral bonus awarded! +5 Rubies for you and +10 for your referrer");
             }
+            
+            // Check for VIP status
+            if (data.totalReferrals >= 10 && !data.isVip) {
+              userRef.update({ isVip: true });
+              showNotification("🎉 Congratulations! You've unlocked VIP status!");
+              showConfetti();
+            }
           });
           return;
         }
-        db.ref("users/" + currentUser + "/rubies").transaction(rubies => (rubies || 0) + 0.0002);
+        
+        // VIP users earn 50% more
+        const earnings = isVip ? 0.0003 : 0.0002;
+        db.ref("users/" + currentUser + "/rubies").transaction(rubies => (rubies || 0) + earnings);
       }, 5000);
     }
 
     function startMining() {
+      vibrate();
       const now = Date.now();
       const end = now + 24 * 60 * 60 * 1000;
       const userRef = db.ref("users/" + currentUser);
@@ -721,7 +1500,8 @@
         if (!data.miningEnd || data.miningEnd < now) {
           userRef.update({
             miningEnd: end,
-            miningDays: (data.miningDays || 0) + 1
+            miningDays: (data.miningDays || 0) + 1,
+            level: calculateLevel((data.miningDays || 0) + 1)
           });
           startMiningInterval(end);
           startProgressInterval(end);
@@ -729,6 +1509,7 @@
           document.getElementById("progressContainer").style.display = "block";
           document.getElementById("miningStatus").innerText = "⛏️ Mining active - " + formatTime(24 * 60 * 60 * 1000);
           showNotification("⛏️ Mining started for 24 hours!");
+          toggleMiningAnimation(true);
         } else {
           showNotification("Mining is already active");
         }
@@ -736,6 +1517,7 @@
     }
 
     function claimBonus() {
+      vibrate();
       const today = new Date().toISOString().slice(0, 10);
       const userRef = db.ref("users/" + currentUser);
       userRef.once("value").then(snap => {
@@ -744,18 +1526,22 @@
           document.getElementById("bonusStatus").innerText = "🎁 Daily bonus already claimed!";
           showNotification("You've already claimed your daily bonus today");
         } else {
+          // VIP users get bigger bonus
+          const bonus = isVip ? 30 : 20;
           userRef.update({
-            rubies: (data.rubies || 0) + 20,
+            rubies: (data.rubies || 0) + bonus,
             lastBonus: today
           });
-          document.getElementById("bonusStatus").innerText = "✅ Daily bonus claimed! +20 Rubies";
+          document.getElementById("bonusStatus").innerText = `✅ Daily bonus claimed! +${bonus} Rubies`;
           document.getElementById("bonusBtn").disabled = true;
-          showNotification("🎁 Daily bonus claimed! +20 Rubies");
+          showNotification(`🎁 Daily bonus claimed! +${bonus} Rubies`);
+          showConfetti();
         }
       });
     }
 
     function requestWithdraw() {
+      vibrate();
       const userRef = db.ref("users/" + currentUser);
       userRef.once("value").then(snap => {
         const data = snap.val();
@@ -782,13 +1568,15 @@
           contact: contact,
           status: "pending",
           timestamp: Date.now(),
-          processed: false
+          processed: false,
+          isVip: isVip // VIP withdrawals get priority
         });
         
         // Deduct from balance
         userRef.child("rubies").transaction(rubies => (rubies || 0) - parseFloat(amount));
         
         showNotification("✅ Withdrawal request submitted! Processing may take 3-5 business days.");
+        showConfetti();
       });
     }
 
@@ -798,7 +1586,7 @@
         snap.forEach(child => {
           const d = child.val();
           if(d.banned) return;
-          list.push({ name: child.key, rubies: d.rubies || 0 });
+          list.push({ name: child.key, rubies: d.rubies || 0, isVip: d.isVip || false });
         });
         
         // Reverse to show highest first
@@ -817,10 +1605,13 @@
           const name = document.createElement("span");
           name.className = "leaderboard-name";
           name.textContent = u.name;
+          if (u.isVip) {
+            name.innerHTML += `<span class="vip-badge">VIP</span>`;
+          }
           
           const rubies = document.createElement("span");
           rubies.className = "leaderboard-rubies";
-          rubies.textContent = `${u.rubies.toFixed(4)} 💎`;
+          rubies.innerHTML = `${u.rubies.toFixed(4)} <i class="fas fa-gem"></i>`;
           
           item.appendChild(rank);
           item.appendChild(name);
@@ -835,7 +1626,8 @@
       db.ref("users/" + currentUser).once("value").then(snap => {
         const data = snap.val();
         document.getElementById("totalReferrals").textContent = data.totalReferrals || 0;
-        document.getElementById("referralEarnings").textContent = (data.referralEarnings || 0) + " 💎";
+        document.getElementById("referralEarnings").innerHTML = (data.referralEarnings || 0) + ' <i class="fas fa-gem"></i>';
+        checkVipStatus(data.totalReferrals || 0);
       });
       
       // Load referral list
@@ -885,9 +1677,9 @@
           const item = document.createElement("div");
           item.className = "withdrawal-item";
           item.innerHTML = `
-            <div>Amount: ${w.amount.toFixed(4)} 💎</div>
-            <div>Date: ${new Date(w.timestamp).toLocaleString()}</div>
-            <div>Status: <span class="withdrawal-status status-${w.status}">${w.status.toUpperCase()}</span></div>
+            <div><strong>Amount:</strong> ${w.amount.toFixed(4)} 💎</div>
+            <div><strong>Date:</strong> ${new Date(w.timestamp).toLocaleString()}</div>
+            <div><strong>Status:</strong> <span class="withdrawal-status status-${w.status}">${w.status.toUpperCase()} ${w.isVip ? ' (VIP)' : ''}</span></div>
           `;
           history.appendChild(item);
         });
@@ -895,6 +1687,7 @@
     }
 
     function copyReferralLink() {
+      vibrate();
       navigator.clipboard.writeText(referralLink).then(() => {
         showNotification("Referral link copied to clipboard!");
       }).catch(err => {
@@ -917,6 +1710,7 @@
     }
 
     function submitKYC() {
+      vibrate();
       const name = document.getElementById("kycName").value.trim();
       const dob = document.getElementById("kycDob").value;
       const idType = document.getElementById("kycIdType").value;
@@ -925,9 +1719,6 @@
       if (!name || !dob || !idNumber) {
         return showNotification("Please fill all required fields");
       }
-      
-      // In a real app, you would upload the images to storage and save the URLs
-      // For this demo, we'll just simulate it
       
       const userRef = db.ref("users/" + currentUser);
       userRef.update({
@@ -941,7 +1732,6 @@
         }
       });
       
-      // Also add to admin queue for approval
       db.ref("kycSubmissions").push().set({
         user: currentUser,
         submittedAt: new Date().toISOString(),
@@ -954,6 +1744,15 @@
 
     // Check for referral code on page load
     window.onload = function() {
+      // Load dark mode preference
+      if (localStorage.getItem('darkMode') === 'light') {
+        document.body.classList.add('light-mode');
+        document.getElementById('darkModeToggle').checked = false;
+      }
+      
+      // Set up toggle switches
+      document.getElementById('darkModeToggle').addEventListener('change', toggleDarkMode);
+      
       const urlParams = new URLSearchParams(window.location.search);
       const refCode = urlParams.get('ref');
       if (refCode) {
@@ -968,6 +1767,7 @@
     };
 
     function logout() {
+      vibrate();
       if(miningInterval) clearInterval(miningInterval);
       if(progressInterval) clearInterval(progressInterval);
       currentUser = "";
@@ -981,6 +1781,7 @@
       document.getElementById("kycStatus").innerText = "";
       document.getElementById("miningStatus").innerText = "";
       document.getElementById("progressContainer").style.display = "none";
+      toggleMiningAnimation(false);
     }
   </script>
 </body>
