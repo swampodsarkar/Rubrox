@@ -810,9 +810,52 @@
       100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
     }
     
+    /* Mobile Taskbar */
+    .mobile-taskbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      z-index: 99;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .taskbar-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--light);
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      padding: 5px 10px;
+      border-radius: 8px;
+    }
+    
+    .taskbar-item i {
+      font-size: 1.2rem;
+      margin-bottom: 3px;
+    }
+    
+    .taskbar-item.active {
+      color: var(--accent);
+      background: rgba(255,255,255,0.1);
+    }
+    
+    .taskbar-item:hover {
+      transform: translateY(-3px);
+    }
+    
     @media (max-width: 480px) {
       .container {
         padding: 15px;
+        margin-bottom: 70px; /* Space for taskbar */
       }
       
       h1 {
@@ -844,6 +887,43 @@
         width: 50px;
         height: 50px;
         font-size: 1.2rem;
+        bottom: 80px; /* Above taskbar */
+      }
+      
+      .mobile-taskbar {
+        padding: 8px 0;
+      }
+      
+      .taskbar-item {
+        font-size: 0.7rem;
+        padding: 5px 8px;
+      }
+      
+      .taskbar-item i {
+        font-size: 1rem;
+      }
+      
+      .modal-content {
+        padding: 15px;
+        margin-bottom: 70px;
+      }
+      
+      .user-profile {
+        padding: 8px;
+      }
+      
+      .profile-avatar {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+      }
+      
+      .profile-name {
+        font-size: 1rem;
+      }
+      
+      .profile-level {
+        font-size: 0.7rem;
       }
     }
   </style>
@@ -958,6 +1038,26 @@
         </select>
         <button onclick="saveWallet()"><i class="fas fa-save"></i> Save Wallet</button>
       </div>
+    </div>
+  </div>
+
+  <!-- Mobile Taskbar -->
+  <div class="mobile-taskbar" id="mobileTaskbar" style="display:none;">
+    <div class="taskbar-item active" onclick="switchTab('leaderboard')">
+      <i class="fas fa-trophy"></i>
+      <span>Leaderboard</span>
+    </div>
+    <div class="taskbar-item" onclick="switchTab('referrals')">
+      <i class="fas fa-users"></i>
+      <span>Referrals</span>
+    </div>
+    <div class="taskbar-item" onclick="switchTab('withdrawals')">
+      <i class="fas fa-wallet"></i>
+      <span>Wallet</span>
+    </div>
+    <div class="taskbar-item" onclick="showSettings()">
+      <i class="fas fa-cog"></i>
+      <span>Settings</span>
     </div>
   </div>
 
@@ -1268,6 +1368,15 @@
       document.getElementById(tabId).classList.add('active');
       document.querySelector(`.tab[onclick="switchTab('${tabId}')"]`).classList.add('active');
       
+      // Update mobile taskbar active state
+      document.querySelectorAll('.taskbar-item').forEach(item => {
+        item.classList.remove('active');
+      });
+      const activeTabButton = document.querySelector(`.taskbar-item[onclick="switchTab('${tabId}')"]`);
+      if (activeTabButton) {
+        activeTabButton.classList.add('active');
+      }
+      
       if(tabId === 'referrals') {
         loadReferralData();
       } else if(tabId === 'withdrawals') {
@@ -1281,6 +1390,7 @@
       const refCode = document.getElementById("referralInput").value.trim();
       if (!name) return showNotification("Please enter your name");
       currentUser = name;
+      localStorage.setItem('currentUser', currentUser); // Save user to localStorage
       updateProfileAvatar(name);
       const userRef = db.ref("users/" + currentUser);
 
@@ -1320,6 +1430,7 @@
       document.getElementById("authSection").style.display = "none";
       document.getElementById("mainApp").style.display = "block";
       document.getElementById("logoutBtn").style.display = "block";
+      document.getElementById("mobileTaskbar").style.display = "flex";
       document.getElementById("userName").innerText = currentUser;
 
       const ref = db.ref("users/" + currentUser);
@@ -1418,6 +1529,7 @@
       document.getElementById("banScreen").style.display = "flex";
       document.getElementById("mainApp").style.display = "none";
       document.getElementById("authSection").style.display = "none";
+      document.getElementById("mobileTaskbar").style.display = "none";
     }
 
     function formatTime(ms) {
@@ -1759,6 +1871,13 @@
         document.getElementById("referralInput").value = refCode;
       }
       
+      // Check if user is already logged in
+      const savedUser = localStorage.getItem('currentUser');
+      if (savedUser) {
+        currentUser = savedUser;
+        loadUser();
+      }
+      
       // Global notifications
       db.ref("notifications").limitToLast(1).on("child_added", snap => {
         const notif = snap.val();
@@ -1771,9 +1890,11 @@
       if(miningInterval) clearInterval(miningInterval);
       if(progressInterval) clearInterval(progressInterval);
       currentUser = "";
+      localStorage.removeItem('currentUser');
       document.getElementById("authSection").style.display = "block";
       document.getElementById("mainApp").style.display = "none";
       document.getElementById("logoutBtn").style.display = "none";
+      document.getElementById("mobileTaskbar").style.display = "none";
       document.getElementById("banScreen").style.display = "none";
       document.getElementById("usernameInput").value = "";
       document.getElementById("referralInput").value = "";
